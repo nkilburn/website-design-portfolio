@@ -1,0 +1,2782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cor tex — Web Design & AI Automation Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800;900&display=swap">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0a;
+  --bg-elev: #111111;
+  --text: #ffffff;
+  --text-soft: #dadada;
+  --text-mute: #888888;
+  --text-dim: #555555;
+  --accent: rgba(200, 170, 130, 1);
+  --accent-soft: rgba(200, 170, 130, 0.25);
+  --accent-glow: rgba(200, 170, 130, 0.08);
+  --line: rgba(255, 255, 255, 0.10);
+  --line-soft: rgba(255, 255, 255, 0.06);
+  --ease-quiet: cubic-bezier(.22, 1, .36, 1);
+  --ease-precise: cubic-bezier(.4, 0, .2, 1);
+  --ease-emphasis: cubic-bezier(.16, 1, .3, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (pointer: coarse) {
+  body { cursor: auto; }
+  #cursor-dot { display: none !important; }
+}
+
+::selection { background: var(--accent); color: var(--bg); }
+
+/* ====== TYPOGRAPHY ====== */
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+h1, h2, h3, h4 {
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.label-accent {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* ====== CURSOR ====== */
+#cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 6px; height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: width 300ms var(--ease-quiet), height 300ms var(--ease-quiet), background 300ms var(--ease-quiet), border 300ms var(--ease-quiet);
+}
+
+/* ====== NAV ====== */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(10, 10, 10, 0.65);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: none;
+  background: none;
+  border: none;
+}
+
+.nav-logo::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+.nav-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: none;
+  padding: 4px 0;
+  transition: color 400ms var(--ease-quiet);
+  position: relative;
+}
+
+.nav-link:hover { color: var(--text); }
+
+.nav-link.active { color: var(--text); }
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.nav-cta {
+  padding: 10px 18px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: none;
+  cursor: none;
+  transition: all 400ms var(--ease-quiet);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-cta:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.nav-mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  cursor: none;
+  padding: 8px;
+}
+
+@media (max-width: 768px) {
+  .nav { padding: 16px 20px; }
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex;
+    position: fixed;
+    inset: 56px 0 0 0;
+    background: var(--bg);
+    flex-direction: column;
+    padding: 60px 40px;
+    gap: 32px;
+    align-items: flex-start;
+  }
+  .nav-cta { display: none; }
+  .nav-mobile-toggle { display: block; }
+  .nav-cta.mobile-show { display: inline-flex; }
+}
+
+/* ====== PAGES ====== */
+.page {
+  display: none;
+  opacity: 0;
+  transition: opacity 500ms var(--ease-quiet);
+  min-height: 100vh;
+}
+
+.page.active {
+  display: block;
+  opacity: 1;
+}
+
+/* ====== HERO ====== */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 140px 40px 80px;
+  overflow: hidden;
+}
+
+.hero canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, transparent 0%, rgba(10,10,10,0.65) 55%, var(--bg) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-label {
+  margin-bottom: 48px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.hero-label::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero-label .status-dot {
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  margin-right: 4px;
+  animation: pulse-status 2s ease-in-out infinite;
+}
+
+@keyframes pulse-status {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero h1 {
+  font-size: clamp(44px, 7.2vw, 116px);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  margin-bottom: 48px;
+  max-width: 1200px;
+  white-space: pre-line;
+  min-height: 3em;
+}
+
+.hero-caret {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.85em;
+  background: var(--accent);
+  margin-left: 0.05em;
+  vertical-align: -0.05em;
+  animation: blink 800ms steps(2) infinite;
+  transition: opacity 200ms;
+}
+
+.hero-caret.is-hidden { opacity: 0; animation: none; }
+
+@keyframes blink { 50% { opacity: 0; } }
+
+.hero-subtitle {
+  font-size: clamp(16px, 1.3vw, 19px);
+  color: var(--text-soft);
+  max-width: 560px;
+  margin-bottom: 48px;
+  line-height: 1.55;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 800ms var(--ease-quiet), transform 800ms var(--ease-quiet);
+}
+
+.hero-subtitle.is-shown {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-cta-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 800ms var(--ease-quiet) 200ms, transform 800ms var(--ease-quiet) 200ms;
+}
+
+.hero-cta-row.is-shown {
+  opacity: 1;
+  transform: none;
+}
+
+.btn-primary {
+  padding: 16px 28px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: none;
+  cursor: none;
+  transition: all 400ms var(--ease-quiet);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-primary:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  padding: 16px 28px;
+  background: transparent;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid var(--line);
+  cursor: none;
+  transition: all 400ms var(--ease-quiet);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 120px 20px 60px; }
+}
+
+/* ====== SECTION COMMON ====== */
+.section {
+  padding: 8rem 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.section-full {
+  padding: 8rem 2.5rem;
+  position: relative;
+}
+
+.section-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.section-label::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.section h2 {
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin-bottom: 32px;
+  max-width: 900px;
+}
+
+.section h2 .accent { color: var(--accent); }
+
+.section-lede {
+  font-size: clamp(17px, 1.4vw, 21px);
+  color: var(--text-soft);
+  max-width: 640px;
+  line-height: 1.55;
+}
+
+@media (max-width: 768px) {
+  .section, .section-full { padding: 5rem 1.5rem; }
+}
+
+/* ====== STATS STRIP ====== */
+.stats {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 60px 40px;
+}
+
+.stats-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+}
+
+.stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(32px, 3.8vw, 52px);
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.stat-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .stats { padding: 40px 20px; }
+}
+
+/* ====== STICKY TWO-COLUMN ====== */
+.sticky-pair {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.sticky-pair .left {
+  position: sticky;
+  top: 120px;
+  padding-right: 40px;
+}
+
+.sticky-pair .right {
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+}
+
+.sticky-pair .left p {
+  color: var(--text-soft);
+  font-size: 17px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 460px;
+}
+
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: none;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--accent-soft);
+  transition: border-color 400ms var(--ease-quiet);
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.link-arrow:hover {
+  border-bottom-color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .sticky-pair { grid-template-columns: 1fr; gap: 60px; }
+  .sticky-pair .left { position: static; padding-right: 0; }
+  .sticky-pair .right { gap: 60px; }
+}
+
+/* ====== CAPABILITY CARD ====== */
+.cap-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.cap-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 20px;
+  display: flex;
+  gap: 16px;
+}
+
+.cap-meta .num { color: var(--accent); }
+
+.cap-image {
+  width: 100%;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  margin-bottom: 28px;
+  background: var(--bg-elev);
+  position: relative;
+}
+
+.cap-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(0.3) brightness(0.85);
+  transition: transform 800ms var(--ease-quiet), filter 800ms var(--ease-quiet);
+}
+
+.cap-card:hover .cap-image img {
+  transform: scale(1.04);
+  filter: grayscale(0) brightness(1);
+}
+
+.cap-card h3 {
+  font-size: clamp(24px, 2.4vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  line-height: 1.15;
+}
+
+.cap-card p {
+  color: var(--text-soft);
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.cap-list {
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.cap-list li {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--text-mute);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.cap-list li span:last-child { color: var(--text-soft); }
+
+/* ====== REVEAL ANIMATIONS ====== */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1000ms var(--ease-quiet), transform 1000ms var(--ease-quiet);
+}
+
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+[data-reveal-delay="1"] { transition-delay: 100ms; }
+[data-reveal-delay="2"] { transition-delay: 200ms; }
+[data-reveal-delay="3"] { transition-delay: 300ms; }
+[data-reveal-delay="4"] { transition-delay: 400ms; }
+
+/* ====== MEDIA DIRECTIONAL CLIP ====== */
+.media {
+  overflow: hidden;
+  position: relative;
+}
+
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.media-reveal {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.3s var(--ease-emphasis);
+}
+
+.media-reveal.dir-right { clip-path: inset(0 100% 0 0); }
+.media-reveal.dir-left { clip-path: inset(0 0 0 100%); }
+.media-reveal.dir-top { clip-path: inset(0 0 100% 0); }
+.media-reveal.dir-bottom { clip-path: inset(100% 0 0 0); }
+
+.media-reveal.is-in {
+  clip-path: inset(0 0 0 0) !important;
+}
+
+.media-reveal img {
+  transform: scale(1.25);
+  transition: transform 1.6s var(--ease-emphasis);
+}
+
+.media-reveal.is-in img {
+  transform: scale(1);
+}
+
+/* ====== WORK GRID ====== */
+.work-header {
+  padding: 180px 40px 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.work-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px 120px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 80px 60px;
+}
+
+.work-card {
+  text-decoration: none;
+  color: inherit;
+  cursor: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.work-card .media {
+  width: 100%;
+  aspect-ratio: 4/5;
+  margin-bottom: 28px;
+  background: var(--bg-elev);
+}
+
+.work-card .media img {
+  transition: transform 1.2s var(--ease-quiet);
+  filter: grayscale(0.25) brightness(0.9);
+}
+
+.work-card:hover .media img {
+  transform: scale(1.05);
+  filter: grayscale(0) brightness(1);
+}
+
+.work-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.work-meta .num { color: var(--accent); }
+
+.work-card h3 {
+  font-size: clamp(26px, 2.6vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  line-height: 1.1;
+  transition: color 400ms var(--ease-quiet);
+}
+
+.work-card:hover h3 {
+  color: var(--accent);
+}
+
+.work-card .blurb {
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.55;
+  max-width: 460px;
+}
+
+.work-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.work-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+}
+
+@media (max-width: 768px) {
+  .work-header { padding: 120px 20px 60px; }
+  .work-grid { grid-template-columns: 1fr; padding: 0 20px 80px; gap: 60px; }
+}
+
+/* ====== FILTER TABS (decorative) ====== */
+.filter-tabs {
+  max-width: 1400px;
+  margin: 0 auto 60px;
+  padding: 0 40px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 24px;
+}
+
+.filter-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  padding: 8px 14px;
+  background: none;
+  border: 1px solid transparent;
+  cursor: none;
+  transition: all 400ms var(--ease-quiet);
+}
+
+.filter-tab:hover { color: var(--text); }
+
+.filter-tab.active {
+  color: var(--accent);
+  border-color: var(--accent-soft);
+}
+
+/* ====== SERVICES ROW HOVER ====== */
+.service-block {
+  padding: 100px 40px;
+  border-bottom: 1px solid var(--line);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.service-block:first-of-type { border-top: 1px solid var(--line); }
+
+.service-rows {
+  margin-top: 60px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 80px 1fr 1.4fr 80px;
+  gap: 40px;
+  padding: 40px 0;
+  border-top: 1px solid var(--line);
+  position: relative;
+  align-items: start;
+  transition: padding 600ms var(--ease-quiet);
+}
+
+.row:last-child { border-bottom: 1px solid var(--line); }
+
+.row::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: 2px; height: 0;
+  background: var(--accent);
+  transition: height 600ms var(--ease-quiet);
+}
+
+.row:hover::before { height: 100%; }
+
+.row-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  padding-top: 4px;
+  transition: color 600ms var(--ease-quiet);
+}
+
+.row:hover .row-num { color: var(--accent); }
+
+.row h3 {
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  transition: color 600ms var(--ease-quiet);
+}
+
+.row:hover h3 { color: var(--accent); }
+
+.row p {
+  color: var(--text-mute);
+  font-size: 15px;
+  line-height: 1.55;
+  transition: color 600ms var(--ease-quiet);
+}
+
+.row:hover p { color: var(--text-soft); }
+
+.row-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  text-align: right;
+  padding-top: 6px;
+}
+
+@media (max-width: 900px) {
+  .row { grid-template-columns: 50px 1fr; gap: 20px; }
+  .row p { grid-column: 2; }
+  .row-tag { grid-column: 2; text-align: left; }
+  .service-block { padding: 60px 20px; }
+}
+
+/* ====== PROCESS STEPS ====== */
+.process {
+  background: var(--bg);
+  padding: 120px 40px;
+  border-top: 1px solid var(--line);
+}
+
+.process-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+}
+
+.process-step {
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+  position: relative;
+}
+
+.process-step::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0;
+  width: 40px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.process-step .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.process-step h4 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.process-step p {
+  color: var(--text-mute);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.process-step .duration {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  margin-top: 20px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .process-grid { grid-template-columns: 1fr; gap: 40px; }
+  .process { padding: 80px 20px; }
+}
+
+/* ====== STUDIO MANIFESTO ====== */
+.manifesto {
+  padding: 160px 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.manifesto-text {
+  font-size: clamp(28px, 3.4vw, 48px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.manifesto-text .accent { color: var(--accent); }
+
+.manifesto-text .mute { color: var(--text-mute); }
+
+/* ====== PRINCIPLES GRID ====== */
+.principles {
+  padding: 0 40px 120px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px;
+  border-top: 1px solid var(--line);
+  padding-top: 60px;
+}
+
+.principle .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.principle h4 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.principle p {
+  color: var(--text-mute);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .principles-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ====== TOOLS LIST ====== */
+.tools {
+  padding: 100px 40px;
+  border-top: 1px solid var(--line);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  margin-top: 48px;
+  border: 1px solid var(--line);
+}
+
+.tool-cell {
+  background: var(--bg);
+  padding: 32px 24px;
+  transition: background 400ms var(--ease-quiet);
+}
+
+.tool-cell:hover { background: var(--bg-elev); }
+
+.tool-cell .category {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.tool-cell h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.tool-cell p {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--text-mute);
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .tools-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 500px) {
+  .tools-grid { grid-template-columns: 1fr; }
+}
+
+/* ====== CONTACT ====== */
+.contact-header {
+  padding: 180px 40px 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.contact-header h1 {
+  font-size: clamp(48px, 7vw, 108px);
+  font-weight: 900;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  margin-bottom: 32px;
+}
+
+.contact-header h1 .accent { color: var(--accent); }
+
+.contact-header .lede {
+  font-size: clamp(17px, 1.4vw, 21px);
+  color: var(--text-soft);
+  max-width: 580px;
+  line-height: 1.55;
+}
+
+.contact-body {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px 120px;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 80px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 12px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  padding: 12px 0;
+  outline: none;
+  cursor: none;
+  transition: border-color 400ms var(--ease-quiet);
+  font-weight: 500;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-bottom-color: var(--accent);
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--text-dim);
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+}
+
+.form-field select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3e%3cpath fill='none' stroke='%23888' stroke-width='1.5' d='M1 1l5 5 5-5'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  padding-right: 32px;
+}
+
+.form-field select option {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.form-submit {
+  margin-top: 16px;
+  align-self: flex-start;
+}
+
+.form-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 400ms;
+  margin-top: 8px;
+}
+
+.form-status.is-shown { opacity: 1; }
+
+.contact-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding-top: 32px;
+}
+
+.sidebar-block .label {
+  margin-bottom: 16px;
+  display: block;
+}
+
+.sidebar-block .value {
+  font-size: 17px;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.sidebar-block .value a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+  transition: border-color 400ms var(--ease-quiet);
+  cursor: none;
+}
+
+.sidebar-block .value a:hover {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .contact-body { grid-template-columns: 1fr; gap: 60px; padding: 0 20px 80px; }
+  .contact-header { padding: 140px 20px 60px; }
+  .form-row { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ====== FAQ ====== */
+.faq {
+  border-top: 1px solid var(--line);
+  padding: 100px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.faq-list {
+  margin-top: 48px;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 28px 0;
+  cursor: none;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: color 400ms var(--ease-quiet);
+}
+
+.faq-q:hover { color: var(--accent); }
+
+.faq-q .toggle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--accent);
+  margin-left: 24px;
+  flex-shrink: 0;
+  transition: transform 400ms var(--ease-quiet);
+}
+
+.faq-item.open .faq-q .toggle {
+  transform: rotate(45deg);
+}
+
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 500ms var(--ease-quiet);
+}
+
+.faq-item.open .faq-a {
+  max-height: 300px;
+}
+
+.faq-a p {
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.6;
+  padding-bottom: 28px;
+  max-width: 680px;
+}
+
+/* ====== CTA BAND ====== */
+.cta-band {
+  padding: 140px 40px;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.cta-band h2 {
+  font-size: clamp(40px, 6vw, 88px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: 40px;
+  max-width: 1000px;
+}
+
+.cta-band h2 .accent { color: var(--accent); }
+
+.cta-band .lede {
+  font-size: 18px;
+  color: var(--text-soft);
+  max-width: 540px;
+  margin-bottom: 40px;
+  line-height: 1.55;
+}
+
+/* ====== FOOTER ====== */
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 80px 40px 40px;
+  background: var(--bg);
+}
+
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 60px;
+  border-bottom: 1px solid var(--line);
+}
+
+.footer-brand {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-brand::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.footer-tag {
+  color: var(--text-mute);
+  font-size: 14px;
+  line-height: 1.55;
+  max-width: 280px;
+}
+
+.footer-col h5 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col li {
+  margin-bottom: 12px;
+}
+
+.footer-col a {
+  color: var(--text-soft);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 400ms var(--ease-quiet);
+  cursor: none;
+  background: none;
+  border: none;
+  font-family: inherit;
+  text-align: left;
+  padding: 0;
+}
+
+.footer-col a:hover { color: var(--accent); }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 40px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-bottom .clock {
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .footer { padding: 60px 20px 30px; }
+}
+
+/* ====== STATUS BAR ====== */
+.status-bar {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 90;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.status-bar .live::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: 1px;
+  animation: pulse-status 2s ease-in-out infinite;
+}
+
+.status-bar .right { display: flex; gap: 24px; }
+
+@media (max-width: 768px) {
+  .status-bar { padding: 8px 16px; font-size: 9px; }
+  .status-bar .right { display: none; }
+}
+
+/* ====== HERO SCROLL INDICATOR ====== */
+.scroll-indicator {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 800ms var(--ease-quiet) 1.5s;
+}
+
+.scroll-indicator.is-shown { opacity: 1; }
+
+.scroll-indicator::after {
+  content: '';
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+}
+
+@media (max-width: 768px) {
+  .scroll-indicator { display: none; }
+}
+
+/* ====== FEATURED WORK (HOME) ====== */
+.featured-work {
+  padding: 120px 40px;
+  border-top: 1px solid var(--line);
+}
+
+.featured-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+}
+
+@media (max-width: 900px) {
+  .featured-grid { grid-template-columns: 1fr; }
+  .featured-work { padding: 80px 20px; }
+}
+
+/* ====== MISC ====== */
+.divider-num {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+}
+
+.divider-num::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.big-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: none;
+  padding: 16px 0;
+  margin-top: 24px;
+  border-bottom: 1px solid var(--accent-soft);
+  transition: border-color 400ms var(--ease-quiet);
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.big-link:hover { border-bottom-color: var(--accent); }
+
+/* Page transition overlay */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms var(--ease-quiet);
+}
+
+.page-transition.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor-dot"></div>
+
+<!-- ====== NAV ====== -->
+<nav class="nav">
+  <button class="nav-logo" data-page="home">CORTEX / STUDIO</button>
+  <div class="nav-links" id="nav-links">
+    <button class="nav-link active" data-page="home">Home</button>
+    <button class="nav-link" data-page="work">Work</button>
+    <button class="nav-link" data-page="services">Services</button>
+    <button class="nav-link" data-page="studio">Studio</button>
+    <button class="nav-link" data-page="contact">Contact</button>
+    <a href="#" class="nav-cta mobile-show" data-page="contact">Start a project →</a>
+  </div>
+  <a href="#" class="nav-cta" data-page="contact">Start a project →</a>
+  <button class="nav-mobile-toggle" id="nav-toggle">MENU</button>
+</nav>
+
+<!-- ====== PAGE: HOME ====== -->
+<section class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <canvas id="glyph-rain"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-label">
+        <span><span class="status-dot"></span>Available for Q2 2025 — 2 slots remaining</span>
+      </div>
+      <h1><span id="type-host"></span><span class="hero-caret" id="type-caret"></span></h1>
+      <p class="hero-subtitle" id="hero-subtitle">Cor tex is a small studio building marketing websites, internal tools, and AI automation systems for service businesses, agencies, and operators who'd rather not hire a fifth junior.</p>
+      <div class="hero-cta-row" id="hero-cta-row">
+        <button class="btn-primary" data-page="work">See selected work <span>→</span></button>
+        <button class="btn-ghost" data-page="contact">Start a project</button>
+      </div>
+    </div>
+    <div class="scroll-indicator" id="scroll-indicator">Scroll<span></span></div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stats-inner">
+      <div class="stat" data-reveal>
+        <div class="stat-num">47</div>
+        <div class="stat-label">Projects shipped<br>since 2021</div>
+      </div>
+      <div class="stat" data-reveal data-reveal-delay="1">
+        <div class="stat-num">12k+</div>
+        <div class="stat-label">Hours of manual<br>work automated</div>
+      </div>
+      <div class="stat" data-reveal data-reveal-delay="2">
+        <div class="stat-num">4</div>
+        <div class="stat-label">People on the<br>team, full-time</div>
+      </div>
+      <div class="stat" data-reveal data-reveal-delay="3">
+        <div class="stat-num">72h</div>
+        <div class="stat-label">Average response<br>to new inquiries</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What we do (sticky two-column) -->
+  <section class="section">
+    <div class="sticky-pair">
+      <div class="left">
+        <div class="section-label">02 / What we do</div>
+        <h2>Two practices,<br>one studio.</h2>
+        <p>We started in 2021 as a web design outfit. Three years in, half our work is automation: the back-office pipelines, agent scripts, and dashboards that quietly do the work no one wants to do.</p>
+        <p>The two halves feed each other. A good website without automation behind it leaks leads. A good automation without a clear surface to look at never gets used. We ship both, in the same engagement, by the same small team.</p>
+        <button class="link-arrow" data-page="services">See how we work →</button>
+      </div>
+      <div class="right">
+        <article class="cap-card" data-reveal>
+          <div class="cap-meta"><span class="num">01</span><span>Web Design & Build</span></div>
+          <div class="cap-image media media-reveal dir-right"><img src="https://picsum.photos/seed/cortex-web-design/800/500" alt="Web design"></div>
+          <h3>Marketing sites that earn their budget.</h3>
+          <p>Strategy, copy, design, and build — under one roof. We work in Webflow, Framer, and Next.js depending on what your team will actually maintain after we hand over the keys.</p>
+          <ul class="cap-list">
+            <li><span>Strategy & positioning</span><span>2 weeks</span></li>
+            <li><span>Copy & design</span><span>3–4 weeks</span></li>
+            <li><span>Build & launch</span><span>2–3 weeks</span></li>
+            <li><span>CMS migration</span><span>Optional</span></li>
+          </ul>
+        </article>
+
+        <article class="cap-card" data-reveal>
+          <div class="cap-meta"><span class="num">02</span><span>AI Automation</span></div>
+          <div class="cap-image media media-reveal dir-left"><img src="https://picsum.photos/seed/cortex-automation/800/500" alt="AI automation"></div>
+          <h3>The work no one wants to do, done by software.</h3>
+          <p>Lead routing, document processing, client onboarding, internal Q&A, report generation. We map the workflow, build it in n8n / Make / custom Python, and ship a small dashboard you can actually read.</p>
+          <ul class="cap-list">
+            <li><span>Workflow audit</span><span>1 week</span></li>
+            <li><span>Build & integrate</span><span>3–5 weeks</span></li>
+            <li><span>Dashboard & handoff</span><span>1 week</span></li>
+            <li><span>Ongoing tuning</span><span>Monthly</span></li>
+          </ul>
+        </article>
+
+        <article class="cap-card" data-reveal>
+          <div class="cap-meta"><span class="num">03</span><span>Internal Tools & Dashboards</span></div>
+          <div class="cap-image media media-reveal dir-bottom"><img src="https://picsum.photos/seed/cortex-dashboards/800/500" alt="Dashboards"></div>
+          <h3>Surfaces for the work that already happens.</h3>
+          <p>If your team lives in Notion, Airtable, Slack, and a Google Sheet that no one fully understands, we build the thin layer on top that makes it usable — internal dashboards, agent copilots, and the small apps that bridge your stack.</p>
+          <ul class="cap-list">
+            <li><span>Tooling audit</span><span>3 days</span></li>
+            <li><span>Build & ship</span><span>2–4 weeks</span></li>
+            <li><span>Team training</span><span>1 day</span></li>
+            <li><span>Retainer support</span><span>Optional</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured work -->
+  <section class="featured-work">
+    <div class="featured-inner">
+      <div class="section-label">03 / Selected work</div>
+      <h2 style="font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 32px; max-width: 900px;">Recent projects.</h2>
+      <p class="section-lede">A sample of what we've shipped in the last eighteen months. Full case studies on the work page.</p>
+
+      <div class="featured-grid">
+        <a href="#" class="work-card" data-reveal>
+          <div class="media media-reveal dir-right" style="aspect-ratio: 4/5;">
+            <img src="https://picsum.photos/seed/cortex-fintech/600/750" alt="Halcyon Capital">
+          </div>
+          <div class="work-meta">
+            <span><span class="num">01</span> / Halcyon Capital</span>
+            <span>2024</span>
+          </div>
+          <h3>Investor portal & onboarding automation</h3>
+          <p class="blurb">A 12-person investment firm replaced three back-office roles with a portal that ingests deal flow, drafts memos, and routes diligence to the right associate.</p>
+        </a>
+
+        <a href="#" class="work-card" data-reveal data-reveal-delay="1">
+          <div class="media media-reveal dir-top" style="aspect-ratio: 4/5;">
+            <img src="https://picsum.photos/seed/cortex-healthtech/600/750" alt="Northwind Health">
+          </div>
+          <div class="work-meta">
+            <span><span class="num">02</span> / Northwind Health</span>
+            <span>2024</span>
+          </div>
+          <h3>Marketing site & patient intake agent</h3>
+          <p class="blurb">A 9-location physical therapy chain needed a new site and a way to handle 600+ monthly intake calls without adding front-desk headcount.</p>
+        </a>
+
+        <a href="#" class="work-card" data-reveal data-reveal-delay="2">
+          <div class="media media-reveal dir-left" style="aspect-ratio: 4/5;">
+            <img src="https://picsum.photos/seed/cortex-freight/600/750" alt="Atlas Freight">
+          </div>
+          <div class="work-meta">
+            <span><span class="num">03</span> / Atlas Freight Co.</span>
+            <span>2023</span>
+          </div>
+          <h3>Quote engine & operations dashboard</h3>
+          <p class="blurb">A regional freight forwarder replaced an Excel-based quoting process with a guided web app, cutting average quote time from 40 minutes to under 3.</p>
+        </a>
+      </div>
+
+      <button class="big-link" data-page="work">See all 12 case studies →</button>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="process">
+    <div class="process-inner">
+      <div class="section-label">04 / How we work</div>
+      <h2 style="font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 32px; max-width: 900px;">A short, named<br>process.</h2>
+      <p class="section-lede">No 40-page statement of work. Four phases, two to twelve weeks, one team that stays on the project from kickoff to handoff.</p>
+
+      <div class="process-grid">
+        <div class="process-step" data-reveal>
+          <div class="num">01 / Listen</div>
+          <h4>Map the real problem</h4>
+          <p>One week of calls, document review, and shadowing. We come back with a one-page brief: what's broken, what's worth fixing, what isn't.</p>
+          <div class="duration">Week 1 — fixed fee</div>
+        </div>
+        <div class="process-step" data-reveal data-reveal-delay="1">
+          <div class="num">02 / Sketch</div>
+          <h4>Design before we build</h4>
+          <p>Wireframes, sample automation flows, a clickable prototype. You see exactly what we're going to build before we commit to building it.</p>
+          <div class="duration">Weeks 2–3</div>
+        </div>
+        <div class="process-step" data-reveal data-reveal-delay="2">
+          <div class="num">03 / Build</div>
+          <h4>Ship in tight loops</h4>
+          <p>Weekly demos, shared Linear board, Slack channel with the whole team. No project managers, no status meetings, just the work.</p>
+          <div class="duration">Weeks 3–10</div>
+        </div>
+        <div class="process-step" data-reveal data-reveal-delay="3">
+          <div class="num">04 / Hand off</div>
+          <h4>Documented, trained, retainer</h4>
+          <p>You get the code, the keys, the docs, and a 90-day warranty. Most clients keep us on a small monthly retainer for tuning and additions.</p>
+          <div class="duration">Week 12 + ongoing</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <div class="divider-num">05 / Next</div>
+    <h2>Got something<br>that should <span class="accent">run itself?</span></h2>
+    <p class="lede">We respond to every inquiry within 72 hours. Worst case, you get a free 30-minute call and a honest read on whether we're the right fit.</p>
+    <button class="btn-primary" data-page="contact">Start a project <span>→</span></button>
+  </section>
+
+</section>
+
+<!-- ====== PAGE: WORK ====== -->
+<section class="page" id="page-work">
+
+  <div class="work-header">
+    <div class="section-label">01 / Work</div>
+    <h2 style="font-size: clamp(40px, 6vw, 96px); font-weight: 900; line-height: 0.98; letter-spacing: -0.04em; margin-bottom: 32px;">Twelve projects,<br>since 2021.</h2>
+    <p class="section-lede">We've kept the portfolio short on purpose. Every project below shipped to production, has a real client we can introduce you to, and is something we'd happily build again.</p>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="filter-tab active">All work</button>
+    <button class="filter-tab">Web design</button>
+    <button class="filter-tab">AI automation</button>
+    <button class="filter-tab">Internal tools</button>
+    <button class="filter-tab">2024</button>
+    <button class="filter-tab">2023</button>
+  </div>
+
+  <div class="work-grid">
+
+    <a href="#" class="work-card" data-reveal>
+      <div class="media media-reveal dir-right">
+        <img src="https://picsum.photos/seed/cortex-fintech/600/750" alt="Halcyon Capital">
+      </div>
+      <div class="work-meta">
+        <span><span class="num">01</span> / Halcyon Capital</span>
+        <span>2024</span>
+      </div>
+      <h3>Investor portal & onboarding automation</h3>
+      <p class="blurb">A 12-person investment firm replaced three back-office roles with a portal that ingests deal flow, drafts memos, and routes diligence to the right associate.</p>
+      <div class="work-tags">
+        <span class="work-tag">Web app</span>
+        <span class="work-tag">Automation</span>
+        <span class="work-tag">Dashboard</span>
+      </div>
+    </a>
+
+    <a href="#" class="work-card" data-reveal data-reveal-delay="1">
+      <div class="media media-reveal dir-top">
+        <img src="https://picsum.photos/seed/cortex-healthtech/600/750" alt="Northwind Health">
+      </div>
+      <div class="work-meta">
+        <span><span class="num">02</span> / Northwind Health</span>
+        <span>2024</span>
+      </div>
+      <h3>Marketing site & patient intake agent</h3>
+      <p class="blurb">A 9-location physical therapy chain needed a new site and a way to handle 600+ monthly intake calls without adding front-desk headcount.</p>
+      <div class="work-tags">
+        <span class="work-tag">Web design</span>
+        <span class="work-tag">AI agent</span>
+        <span class="work-tag">Telephony</span>
+      </div>
+    </a>
+
+    <a href="#" class="work-card" data-reveal>
+      <div class="media media-reveal dir-left">
+        <img src="https://picsum.photos/seed/cortex-freight/600/750" alt="Atlas Freight">
+      </div>
+      <div class="work-meta">
+        <span><span class="num">03</span> / Atlas Freight Co.</span>
+        <span>2023</span>
+      </div>
+      <h3>Quote engine & operations dashboard</h3>
+      <p class="blurb">A regional freight forwarder replaced an Excel-based quoting process with a guided web app, cutting average quote time from 40 minutes to under 3.</p>
+      <div class="work-tags">
+        <span class="work-tag">Web app</span>
+        <span class="work-tag">Dashboard</span>
+      </div>
+    </a>
+
+    <a href="#" class="work-card" data-reveal data-reveal-delay="1">
+      <div class="media media-reveal dir-bottom">
+        <img src="https://picsum.photos/seed/cortex-polaris/600/750" alt="Polaris Studio">
+      </div>
+      <div class="work-meta">
+        <span><span class="num">04</span> / Polaris Studio</span>
+        <span>2024</span>
+      </div>
+      <h3>Brand & marketing site relaunch</h3>
+      <p class="blurb">A 30-person architecture firm with a portfolio that deserved a better home. We rebuilt the site from positioning outward in six weeks.</p>
+      <div class="work-tags">
+        <span class="work-tag">Web design</span>
+        <span class="work-tag">Webflow</span>
+        <span class="work-tag">Brand</span>
+      </div>
+    </a>
+
+    <a href="#" class="work-card" data-reveal>
+      <div class="media media-reveal dir-right">
+        <img src="https://picsum.photos/seed/cortex-meridian-law/600/750" alt="Meridian Law">
+      </div>
+      <div class="work-meta">
+        <span><span class="num">05</span> / Meridian Law</span>
+        <span>2023</span>
+      </div>
+      <h3>Intake triage & matter routing</h3>
+      <p class="blurb">A boutique employment law firm was losing potential clients to slow intake. We built an agent that triages inbound matters in under 90 seconds.</p>
+      <div class="work-tags">
+        <span class="work-tag">AI agent</span>
+        <span class="work-tag">Automation</span>
+      </div>
+    </a>
+
+    <a href="#" class="work-card" data-reveal data-reveal-delay="1">
+      <div class="media media-reveal dir-top">
+        <img src="https://picsum.photos/seed/cortex-bluebird/600/750" alt="Bluebird Education">
+      </div>
+      <div class="work-meta">
+        <span><span class="num">06</span> / Bluebird Education</span>
+        <span>2024</span>
+      </div>
+      <h3>Course platform & content pipeline</h3>
+      <p class="blurb">An online education company needed to ship 200 courses in 18 months. We built the platform and the AI-assisted content pipeline that got them there.</p>
+      <div class="work-tags">
+        <span class="work-tag">Web app</span>
+        <span class="work-tag">AI pipeline</span>
+      </div>
+    </a>
+
+    <a href="#" class="work-card" data-reveal>
+      <div class="media media-reveal dir-left">
+        <img src="https://picsum.photos/seed/cortex-saas-dashboard/600/750" alt="SaaS Dashboard">
+      </div>
+      <div class="work-meta">
+        <span><span class="num">07</span> / (NDA) B2B SaaS</span>
+        <span>2023</span>
+      </div>
+      <h3>Admin dashboard rebuild</h3>
+      <p class="blurb">A Series B SaaS company shipped a six-year-old internal admin tool that no one wanted to touch. We rebuilt it in eight weeks, kept the API, replaced the UX.</p>
+      <div class="work-tags">
+        <span class="work-tag">Dashboard</span>
+        <span class="work-tag">Internal tool</span>
+      </div>
+    </a>
+
+    <a href="#" class="work-card" data-reveal data-reveal-delay="1">
+      <div class="media media-reveal dir-bottom">
+        <img src="https://picsum.photos/seed/cortex-ml-platform/600/750" alt="ML Platform">
+      </div>
+      <div class="work-meta">
+        <span><span class="num">08</span> / Vertex Robotics</span>
+        <span>2024</span>
+      </div>
+      <h3>Marketing site & docs portal</h3>
+      <p class="blurb">An industrial robotics company needed a marketing site engineers would respect and a docs portal sales could share without apologizing.</p>
+      <div class="work-tags">
+        <span class="work-tag">Web design</span>
+        <span class="work-tag">Docs</span>
+      </div>
+    </a>
+
+  </div>
+
+  <section class="cta-band">
+    <div class="divider-num">Next</div>
+    <h2>Want the longer<br>version of <span class="accent">any of these?</span></h2>
+    <p class="lede">We're happy to walk you through any project in detail — including the parts that didn't work, what we'd do differently, and how the engagement is going now.</p>
+    <button class="btn-primary" data-page="contact">Ask about a case study <span>→</span></button>
+  </section>
+
+</section>
+
+<!-- ====== PAGE: SERVICES ====== -->
+<section class="page" id="page-services">
+
+  <div class="work-header">
+    <div class="section-label">01 / Services</div>
+    <h2 style="font-size: clamp(40px, 6vw, 96px); font-weight: 900; line-height: 0.98; letter-spacing: -0.04em; margin-bottom: 32px;">What we sell,<br>and what we don't.</h2>
+    <p class="section-lede">Three offerings, all under one engagement when it makes sense. We don't sell retainers longer than six months, we don't do SEO retainers, and we don't build mobile apps.</p>
+  </div>
+
+  <!-- Service 1: Web Design -->
+  <div class="service-block">
+    <div class="divider-num">02 / Web design & build</div>
+    <h2 style="font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 32px; max-width: 900px;">Marketing sites that<br>earn their budget.</h2>
+    <p class="section-lede">Strategy, copy, design, and build — under one roof. Most engagements ship in 6–9 weeks and cost between $24k and $60k.</p>
+
+    <div class="service-rows">
+      <div class="row" data-reveal>
+        <div class="row-num">01</div>
+        <div><h3>Positioning & messaging</h3></div>
+        <p>We start with a one-week strategy sprint. You leave with a positioning doc, a site map, and the homepage headline. We won't open Figma until you've signed off on the words.</p>
+        <div class="row-tag">Week 1</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">02</div>
+        <div><h3>Copywriting</h3></div>
+        <p>We write the copy. Not a content agency, not a freelancer — us. We've found that designers writing copy and copywriters designing pages both produce worse outcomes than a small team doing both together.</p>
+        <div class="row-tag">Week 2</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">03</div>
+        <div><h3>Visual design</h3></div>
+        <p>Two concepts, one round of revisions, one final direction. We work in Figma, hand off the file, and don't believe in pixel-perfect mockups of every state — we'd rather build the real thing.</p>
+        <div class="row-tag">Weeks 3–4</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">04</div>
+        <div><h3>Build & launch</h3></div>
+        <p>Webflow, Framer, or Next.js — whichever your team will actually maintain. We handle CMS migration, redirects, analytics, and the launch window. You get the keys on day one.</p>
+        <div class="row-tag">Weeks 5–8</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">05</div>
+        <div><h3>Handoff & training</h3></div>
+        <p>A 90-minute recorded training, a written handbook, and 30 days of free fixes. After that, we'll quote any new work at our standard day rate.</p>
+        <div class="row-tag">Week 9</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service 2: AI Automation -->
+  <div class="service-block">
+    <div class="divider-num">03 / AI automation</div>
+    <h2 style="font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 32px; max-width: 900px;">The work no one wants<br>to do, done by software.</h2>
+    <p class="section-lede">We map the workflow, build it in n8n / Make / custom Python, and ship a small dashboard you can actually read. Engagements range from $18k to $80k depending on scope.</p>
+
+    <div class="service-rows">
+      <div class="row" data-reveal>
+        <div class="row-num">01</div>
+        <div><h3>Workflow audit</h3></div>
+        <p>One week of shadowing, interviews, and document review. We come back with a one-page diagram of what's happening today, what should be automated, and what shouldn't.</p>
+        <div class="row-tag">Week 1</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">02</div>
+        <div><h3>Agent & pipeline design</h3></div>
+        <p>Which model, which tools, which triggers, which fallbacks. We document the whole flow before we write a line of code, so you can sign off on the logic before it's wired up.</p>
+        <div class="row-tag">Week 2</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">03</div>
+        <div><h3>Build & integrate</h3></div>
+        <p>n8n for orchestration, OpenAI / Anthropic for inference, Postgres for state, Slack for human-in-the-loop. We integrate with whatever you already use — we don't ask you to switch stacks.</p>
+        <div class="row-tag">Weeks 3–7</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">04</div>
+        <div><h3>Dashboard & monitoring</h3></div>
+        <p>A small read-only dashboard showing what the system did today, what failed, and what a human needs to look at. No black boxes — you can see every run, every input, every output.</p>
+        <div class="row-tag">Week 8</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">05</div>
+        <div><h3>Tuning retainer</h3></div>
+        <p>Most automation needs 60–90 days of tuning before it's truly stable. We stay on a small monthly retainer during that window, then hand off to your team with documentation.</p>
+        <div class="row-tag">Ongoing</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Service 3: Internal Tools -->
+  <div class="service-block">
+    <div class="divider-num">04 / Internal tools & dashboards</div>
+    <h2 style="font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 32px; max-width: 900px;">Surfaces for the work<br>that already happens.</h2>
+    <p class="section-lede">If your team lives in Notion, Airtable, Slack, and a Google Sheet that no one fully understands, we build the thin layer on top that makes it usable. Engagements range from $15k to $40k.</p>
+
+    <div class="service-rows">
+      <div class="row" data-reveal>
+        <div class="row-num">01</div>
+        <div><h3>Tooling audit</h3></div>
+        <p>Three days of interviews and shadowing. We map what your team actually uses, what they hate, and where the dead clicks are. You keep the audit even if we don't end up building together.</p>
+        <div class="row-tag">3 days</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">02</div>
+        <div><h3>Internal app build</h3></div>
+        <p>Most often a Next.js app on top of your existing data — Postgres, Airtable, Notion, whatever. Small, fast, designed to be handed off to a junior dev after we leave.</p>
+        <div class="row-tag">Weeks 2–4</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">03</div>
+        <div><h3>Agent copilots</h3></div>
+        <p>Slack bots, in-app assistants, internal Q&A over your docs. The kind of thing that saves a senior person 30 minutes a day, every day, without changing how they work.</p>
+        <div class="row-tag">Weeks 3–5</div>
+      </div>
+      <div class="row" data-reveal>
+        <div class="row-num">04</div>
+        <div><h3>Team training</h3></div>
+        <p>A half-day session, recorded, with written docs. Your team should be able to extend what we built without us in the room. If they can't, we didn't do our job.</p>
+        <div class="row-tag">1 day</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Process -->
+  <section class="process">
+    <div class="process-inner">
+      <div class="section-label">05 / Engagement model</div>
+      <h2 style="font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 32px; max-width: 900px;">Fixed fee.<br>Fixed scope.</h2>
+      <p class="section-lede">We don't bill hourly. Every engagement is a fixed fee for a fixed scope, paid in three installments. If we go over estimate, that's on us.</p>
+
+      <div class="process-grid">
+        <div class="process-step" data-reveal>
+          <div class="num">01 / Brief</div>
+          <h4>30-minute call</h4>
+          <p>Free. We'll tell you on the call whether we're the right fit. If we're not, we'll point you to someone who is.</p>
+          <div class="duration">Day 1</div>
+        </div>
+        <div class="process-step" data-reveal data-reveal-delay="1">
+          <div class="num">02 / Proposal</div>
+          <h4>One page, fixed fee</h4>
+          <p>A one-page proposal within 5 business days. Scope, fee, timeline, the team, the deliverables. No 40-page SOW.</p>
+          <div class="duration">Week 1</div>
+        </div>
+        <div class="process-step" data-reveal data-reveal-delay="2">
+          <div class="num">03 / Build</div>
+          <h4>Weekly demos</h4>
+          <p>Every Friday, a 30-minute demo of what we shipped that week. Linear board shared. Slack channel with the whole team.</p>
+          <div class="duration">Weeks 2–10</div>
+        </div>
+        <div class="process-step" data-reveal data-reveal-delay="3">
+          <div class="num">04 / Handoff</div>
+          <h4>Keys, docs, 90-day warranty</h4>
+          <p>You get the code, the credentials, the documentation, and 90 days of free fixes for anything we missed.</p>
+          <div class="duration">Week 12</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="divider-num">06 / Next</div>
+    <h2>Have a workflow<br>that should <span class="accent">run itself?</span></h2>
+    <p class="lede">Tell us what's broken, what's slow, or what's keeping you from scaling. We'll be honest about whether software is the right answer.</p>
+    <button class="btn-primary" data-page="contact">Start a project <span>→</span></button>
+  </section>
+
+</section>
+
+<!-- ====== PAGE: STUDIO ====== -->
+<section class="page" id="page-studio">
+
+  <div class="work-header">
+    <div class="section-label">01 / Studio</div>
+    <h2 style="font-size: clamp(40px, 6vw, 96px); font-weight: 900; line-height: 0.98; letter-spacing: -0.04em; margin-bottom: 32px;">Four people,<br>no project managers.</h2>
+    <p class="section-lede">Cor tex has been a four-person studio since 2022. We've turned down growth on purpose — the work gets worse when the team gets bigger, and we'd rather do fewer projects well than more projects at scale.</p>
+  </div>
+
+  <!-- Manifesto -->
+  <section class="manifesto">
+    <div class="divider-num">02 / What we believe</div>
+    <p class="manifesto-text" data-reveal>
+      Most websites are <span class="mute">a brochure</span> <span class="accent">on top of a spreadsheet.</span><br><br>
+      Most automation is <span class="mute">a script</span> <span class="accent">no one can read.</span><br><br>
+      We build the brochure <span class="accent">and</span> the script, in the same room, by the same people, on the same invoice. It's slower. It's better.
+    </p>
+  </section>
+
+  <!-- Principles -->
+  <section class="principles">
+    <div class="divider-num">03 / Principles</div>
+    <h2 style="font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 32px;">Three rules we<br>haven't broken.</h2>
+
+    <div class="principles-grid">
+      <div class="principle" data-reveal>
+        <div class="num">01</div>
+        <h4>Fixed fee, fixed scope.</h4>
+        <p>If we underestimate the work, that's our problem — not yours. We've never sent a change order in four years of operation, and we don't plan to start. The fee you sign is the fee you pay.</p>
+      </div>
+      <div class="principle" data-reveal data-reveal-delay="1">
+        <div class="num">02</div>
+        <h4>The team stays the same.</h4>
+        <p>The people who write the proposal are the people who write the code. No juniors swapped in after kickoff, no offshore team, no "delivery manager" between you and the people doing the work.</p>
+      </div>
+      <div class="principle" data-reveal data-reveal-delay="2">
+        <div class="num">03</div>
+        <h4>Hand off, don't hold hostage.</h4>
+        <p>You get the code, the credentials, the docs, and the option to never talk to us again. Most clients stay on a small retainer — but that's a choice, not a requirement. No vendor lock-in, ever.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team / approach -->
+  <section class="section">
+    <div class="sticky-pair">
+      <div class="left">
+        <div class="section-label">04 / The team</div>
+        <h2>Four people,<br>wearing few hats.</h2>
+        <p>Two of us design and write. Two of us build and ship. We all talk to clients. We all do QA. We all write the docs. The hat count stays low on purpose — it's how the work stays coherent.</p>
+        <p>We're based in Brooklyn, NY, with one person in Lisbon. We work Eastern US hours, on Pacific time when the client is on the West Coast, and never on weekends.</p>
+        <button class="link-arrow" data-page="contact">Get in touch →</button>
+      </div>
+      <div class="right">
+        <article class="cap-card" data-reveal>
+          <div class="cap-meta"><span class="num">01</span><span>Design & strategy</span></div>
+          <div class="cap-image media media-reveal dir-right"><img src="https://picsum.photos/seed/cortex-design-lead/800/500" alt="Design"></div>
+          <h3>Two designers, one copywriter.</h3>
+          <p>The same person who writes the homepage headline will design the homepage. The same person who designs the dashboard will write the empty states. We don't believe in handing off copy to a designer or design to a developer.</p>
+        </article>
+
+        <article class="cap-card" data-reveal>
+          <div class="cap-meta"><span class="num">02</span><span>Build & automation</span></div>
+          <div class="cap-image media media-reveal dir-left"><img src="https://picsum.photos/seed/cortex-build-lead/800/500" alt="Build"></div>
+          <h3>Two engineers, full-stack by necessity.</h3>
+          <p>One leans frontend, one leans backend, both ship to production. We work in TypeScript, Python, and SQL. We've shipped projects in Next.js, Webflow, Framer, n8n, Make, Airtable, Postgres, Supabase, and a few things we wouldn't recommend.</p>
+        </article>
+
+        <article class="cap-card" data-reveal>
+          <div class="cap-meta"><span class="num">03</span><span>How we collaborate</span></div>
+          <div class="cap-image media media-reveal dir-bottom"><img src="https://picsum.photos/seed/cortex-collab/800/500" alt="Collaboration"></div>
+          <h3>One Slack channel, one Linear board.</h3>
+          <p>No project managers means you talk to the people doing the work. We share a Slack channel with your team, a Linear board with the work, and a weekly Friday demo. That's the whole communication structure.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tools -->
+  <section class="tools">
+    <div class="divider-num">05 / Tools we use</div>
+    <h2 style="font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 32px;">The stack, briefly.</h2>
+    <p class="section-lede">We're tool-agnostic and opinion-poor. We use what your team will maintain. Here's what we default to when starting from scratch.</p>
+
+    <div class="tools-grid">
+      <div class="tool-cell" data-reveal>
+        <div class="category">Design</div>
+        <h4>Figma</h4>
+        <p>For visual design, prototyping, and handoff. We've tried Penpot, Framer, and Sketch — Figma wins.</p>
+      </div>
+      <div class="tool-cell" data-reveal data-reveal-delay="1">
+        <div class="category">Web build</div>
+        <h4>Next.js · Webflow · Framer</h4>
+        <p>Next.js for apps, Webflow for marketing sites with non-technical editors, Framer for design-led launches.</p>
+      </div>
+      <div class="tool-cell" data-reveal data-reveal-delay="2">
+        <div class="category">Automation</div>
+        <h4>n8n · Make</h4>
+        <p>n8n for anything we'd want to debug, Make for anything we'd want to hand off. Both, depending on the client.</p>
+      </div>
+      <div class="tool-cell" data-reveal data-reveal-delay="3">
+        <div class="category">AI</div>
+        <h4>OpenAI · Anthropic</h4>
+        <p>GPT-4o for tool use and structured output, Claude for long-context reasoning, Whisper for transcription.</p>
+      </div>
+      <div class="tool-cell" data-reveal>
+        <div class="category">Data</div>
+        <h4>Postgres · Supabase</h4>
+        <p>Postgres for everything that needs to last, Supabase when we want auth and storage in the same window.</p>
+      </div>
+      <div class="tool-cell" data-reveal data-reveal-delay="1">
+        <div class="category">Internal apps</div>
+        <h4>Retool · Next.js</h4>
+        <p>Retool for things only your team will see, Next.js for anything that might eventually become a product.</p>
+      </div>
+      <div class="tool-cell" data-reveal data-reveal-delay="2">
+        <div class="category">Comms</div>
+        <h4>Slack · Linear · Notion</h4>
+        <p>Slack for talking, Linear for tracking, Notion for docs. We use your stack if you have one — these are defaults.</p>
+      </div>
+      <div class="tool-cell" data-reveal data-reveal-delay="3">
+        <div class="category">Deploy</div>
+        <h4>Vercel · Railway · Cloudflare</h4>
+        <p>Vercel for Next.js, Railway for Python services, Cloudflare for everything else. We avoid AWS unless you're already there.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="divider-num">06 / Next</div>
+    <h2>Want to talk<br>about <span class="accent">your project?</span></h2>
+    <p class="lede">We respond to every inquiry within 72 hours. No funnels, no qualifying calls, no salespeople — just a real conversation with someone who'd be on the work.</p>
+    <button class="btn-primary" data-page="contact">Start a project <span>→</span></button>
+  </section>
+
+</section>
+
+<!-- ====== PAGE: CONTACT ====== -->
+<section class="page" id="page-contact">
+
+  <div class="contact-header">
+    <div class="section-label">01 / Contact</div>
+    <h1>Let's build<br>something <span class="accent">real.</span></h1>
+    <p class="lede">Tell us what you're working on. We read every message, respond within 72 hours, and will be honest about whether we're the right studio for the job.</p>
+  </div>
+
+  <div class="contact-body">
+    <form class="contact-form" id="contact-form">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="name" placeholder="Jane Doe" required>
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="jane@company.com" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="company" placeholder="Acme Co.">
+        </div>
+        <div class="form-field">
+          <label for="role">Your role</label>
+          <input type="text" id="role" name="role" placeholder="Founder, Ops lead, ...">
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="project-type">What do you need?</label>
+        <select id="project-type" name="project-type" required>
+          <option value="">Select a project type</option>
+          <option>Web design & build</option>
+          <option>AI automation</option>
+          <option>Internal tool / dashboard</option>
+          <option>All of the above</option>
+          <option>Something else</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="budget">Budget range</label>
+        <select id="budget" name="budget">
+          <option value="">Select a range (optional)</option>
+          <option>Under $15k</option>
+          <option>$15k — $30k</option>
+          <option>$30k — $60k</option>
+          <option>$60k — $100k</option>
+          <option>$100k+</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="message">Tell us about the project</label>
+        <textarea id="message" name="message" rows="5" placeholder="What are you trying to ship? What's broken, what's slow, what's keeping you up at night? The more specific, the better." required></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary form-submit">Send inquiry <span>→</span></button>
+      <div class="form-status" id="form-status">Inquiry sent — we'll respond within 72 hours.</div>
+    </form>
+
+    <aside class="contact-sidebar">
+      <div class="sidebar-block">
+        <span class="label">Direct email</span>
+        <div class="value"><a href="mailto:hello@cortex.studio">hello@cortex.studio</a></div>
+      </div>
+
+      <div class="sidebar-block">
+        <span class="label">Response time</span>
+        <div class="value">72 hours, max. Usually same-day on weekdays.</div>
+      </div>
+
+      <div class="sidebar-block">
+        <span class="label">Studio location</span>
+        <div class="value">Brooklyn, NY<br>68 Jay St, Suite 412</div>
+      </div>
+
+      <div class="sidebar-block">
+        <span class="label">Working hours</span>
+        <div class="value">Mon–Fri, 9am–6pm ET<br>(Pacific on request)</div>
+      </div>
+
+      <div class="sidebar-block">
+        <span class="label">Availability</span>
+        <div class="value">2 slots open for Q2 2025<br>3 slots open for Q3 2025</div>
+      </div>
+
+      <div class="sidebar-block">
+        <span class="label">Follow</span>
+        <div class="value">
+          <a href="#">Twitter / X</a><br>
+          <a href="#">LinkedIn</a><br>
+          <a href="#">Are.na</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="divider-num">02 / Frequently asked</div>
+    <h2 style="font-size: clamp(36px, 5vw, 72px); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; margin-bottom: 32px;">Questions we get<br>more than once.</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">How long does a typical project take?<span class="toggle">+</span></button>
+        <div class="faq-a"><p>Marketing sites: 6–9 weeks. AI automation: 8–12 weeks. Internal tools: 3–6 weeks. We've shipped faster when the scope was tight, and we've taken longer when the scope grew — but we'll tell you on the proposal exactly how long we expect it to take.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do you work with early-stage startups?<span class="toggle">+</span></button>
+        <div class="faq-a"><p>Yes, if you have revenue or funding. We don't do equity-only engagements, and we don't do speculative work — but we've worked with plenty of pre-Series A companies. We'll quote the same fixed fee we'd quote anyone else, and we'll be honest if we think the project is premature.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can you work with our existing design / dev team?<span class="toggle">+</span></button>
+        <div class="faq-a"><p>Yes. We've slotted into existing design systems, worked alongside internal engineering teams, and handed off work in progress. We'll want to know up front so we can scope the collaboration properly — but we don't need to own the whole thing.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What if the scope changes mid-project?<span class="toggle">+</span></button>
+        <div class="faq-a"><p>Small changes: we just make them, no charge. Medium changes: we discuss, often just make them. Large changes: we'll write a small addendum to the scope and adjust the fee if needed. In four years we've sent three change orders. The fixed-fee model works because we scope conservatively, not because we nickel-and-dime.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do you offer ongoing support after launch?<span class="toggle">+</span></button>
+        <div class="faq-a"><p>Every engagement includes 90 days of free fixes for anything we missed. After that, most clients keep us on a $2–4k/month retainer for small additions and tuning. The retainer is optional — you can also just email us when you need something, and we'll quote it at our day rate.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What don't you do?<span class="toggle">+</span></button>
+        <div class="faq-a"><p>Mobile apps. SEO retainers. WordPress. Anything involving crypto tokens. Long-term staff augmentation. Projects over $200k (we'll refer you to a larger studio we trust). Projects under $10k (the work suffers). Anything where we'd be the fourth agency on the project.</p></div>
+      </div>
+    </div>
+  </section>
+
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">CORTEX / STUDIO</div>
+        <p class="footer-tag">A four-person studio building websites and AI automation for service businesses, agencies, and operators. Brooklyn, NY. Since 2021.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Pages</h5>
+        <ul>
+          <li><button class="nav-link" data-page="home" style="color: var(--text-soft); font-size: 14px; letter-spacing: 0; text-transform: none; padding: 0;">Home</button></li>
+          <li><button class="nav-link" data-page="work" style="color: var(--text-soft); font-size: 14px; letter-spacing: 0; text-transform: none; padding: 0;">Work</button></li>
+          <li><button class="nav-link" data-page="services" style="color: var(--text-soft); font-size: 14px; letter-spacing: 0; text-transform: none; padding: 0;">Services</button></li>
+          <li><button class="nav-link" data-page="studio" style="color: var(--text-soft); font-size: 14px; letter-spacing: 0; text-transform: none; padding: 0;">Studio</button></li>
+          <li><button class="nav-link" data-page="contact" style="color: var(--text-soft); font-size: 14px; letter-spacing: 0; text-transform: none; padding: 0;">Contact</button></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Services</h5>
+        <ul>
+          <li><button class="nav-link" data-page="services" style="color: var(--text-soft); font-size: 14px; letter-spacing: 0; text-transform: none; padding: 0;">Web design</button></li>
+          <li><button class="nav-link" data-page="services" style="color: var(--text-soft); font-size: 14px; letter-spacing: 0; text-transform: none; padding: 0;">AI automation</button></li>
+          <li><button class="nav-link" data-page="services" style="color: var(--text-soft); font-size: 14px; letter-spacing: 0; text-transform: none; padding: 0;">Internal tools</button></li>
+          <li><button class="nav-link" data-page="services" style="color: var(--text-soft); font-size: 14px; letter-spacing: 0; text-transform: none; padding: 0;">Dashboards</button></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Elsewhere</h5>
+        <ul>
+          <li><a href="#">Twitter / X</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">Are.na</a></li>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="mailto:hello@cortex.studio">hello@cortex.studio</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 Cor tex Studio LLC · All rights reserved</div>
+      <div class="right">
+        <span><span class="clock" id="clock">--:--</span> EST</span>
+        <span>Brooklyn, NY · 40.6782° N</span>
+        <span>v4.2 · Last shipped 02/14/25</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Status bar -->
+<div class="status-bar">
+  <div class="live">Studio operational · 2 slots open Q2 2025</div>
+  <div class="right">
+    <span id="status-time">--:--:-- EST</span>
+    <span>Brooklyn, NY</span>
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const touch = matchMedia('(pointer: coarse)').matches;
+
+  // ====== CUSTOM CURSOR ======
+  const cursor = document.getElementById('cursor-dot');
+  if (cursor && !touch) {
+    const pos = { x: -100, y: -100 };
+    const target = { x: -100, y: -100 };
+    let hover = false;
+    
+    addEventListener('mousemove', e => {
+      target.x = e.clientX;
+      target.y = e.clientY;
+    });
+    
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest('a, button, input, select, textarea, [data-cursor-hover]')) hover = true;
+    });
+    document.addEventListener('mouseout', e => {
+      if (e.target.closest('a, button, input, select, textarea, [data-cursor-hover]')) hover = false;
+    });
+    
+    (function loop() {
+      requestAnimationFrame(loop);
+      pos.x += (target.x - pos.x) * 0.15;
+      pos.y += (target.y - pos.y) * 0.15;
+      const s = hover ? 40 : 6;
+      cursor.style.transform = `translate(${pos.x - s/2}px, ${pos.y - s/2}px)`;
+      cursor.style.width = s + 'px';
+      cursor.style.height = s + 'px';
+      cursor.style.background = hover ? 'transparent' : '#fff';
+      cursor.style.border = hover ? '1.5px solid rgba(255,255,255,0.6)' : '0 solid transparent';
+      cursor.style.mixBlendMode = hover ? 'normal' : 'difference';
+    })();
+  }
+
+  // ====== GLYPH RAIN ======
+  const cvs = document.getElementById('glyph-rain');
+  const ctx = cvs.getContext('2d');
+  let rainRunning = false;
+  let rainRAF = null;
+  let drops = [];
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789{}<>[]/_=-+*';
+
+  function resizeRain() {
+    if (!cvs.parentElement) return;
+    cvs.width = cvs.parentElement.offsetWidth;
+    cvs.height = cvs.parentElement.offsetHeight;
+    const cols = Math.floor(cvs.width / 20);
+    drops = Array.from({length: cols}, () => Math.random() * -cvs.height);
+  }
+
+  function rainFrame() {
+    if (!rainRunning) return;
+    ctx.fillStyle = 'rgba(10,10,10,0.08)';
+    ctx.fillRect(0, 0, cvs.width, cvs.height);
+    ctx.font = '14px "JetBrains Mono", monospace';
+    for (let i = 0; i < drops.length; i++) {
+      const y = drops[i];
+      const x = i * 20;
+      const bright = Math.random() < 0.02;
+      ctx.fillStyle = bright ? 'rgba(255,230,180,0.95)' : 'rgba(200,170,130,0.65)';
+      ctx.fillText(CHARS[Math.floor(Math.random() * CHARS.length)], x, y);
+      drops[i] = y > cvs.height && Math.random() > 0.975 ? 0 : y + 12;
+    }
+    rainRAF = requestAnimationFrame(rainFrame);
+  }
+
+  function startRain() {
+    if (rainRunning || reduced) return;
+    rainRunning = true;
+    resizeRain();
+    rainFrame();
+  }
+
+  function stopRain() {
+    rainRunning = false;
+    if (rainRAF) cancelAnimationFrame(rainRAF);
+  }
+
+  addEventListener('resize', () => {
+    if (rainRunning) resizeRain();
+  });
+
+  // ====== TYPEWRITER ======
+  const TYPE_TEXT = "We design interfaces\nand automate the\nwork behind them.";
+  let typeTimer = null;
+
+  function runTypewriter() {
+    const host = document.getElementById('type-host');
+    const caret = document.getElementById('type-caret');
+    const subtitle = document.getElementById('hero-subtitle');
+    const ctaRow = document.getElementById('hero-cta-row');
+    const scrollInd = document.getElementById('scroll-indicator');
+    
+    if (!host) return;
+    
+    host.textContent = '';
+    if (caret) caret.classList.remove('is-hidden');
+    if (subtitle) subtitle.classList.remove('is-shown');
+    if (ctaRow) ctaRow.classList.remove('is-shown');
+    if (scrollInd) scrollInd.classList.remove('is-shown');
+    
+    if (typeTimer) clearTimeout(typeTimer);
+    
+    if (reduced) {
+      host.textContent = TYPE_TEXT;
+      if (caret) caret.classList.add('is-hidden');
+      if (subtitle) subtitle.classList.add('is-shown');
+      if (ctaRow) ctaRow.classList.add('is-shown');
+      if (scrollInd) scrollInd.classList.add('is-shown');
+      return;
+    }
+    
+    let i = 0;
+    function tick() {
+      if (i < TYPE_TEXT.length) {
+        const ch = TYPE_TEXT[i];
+        host.textContent += ch;
+        i++;
+        typeTimer = setTimeout(tick, ch === '\n' ? 200 : 38);
+      } else {
+        let n = 0, on = true;
+        const blink = setInterval(() => {
+          if (caret) caret.classList.toggle('is-hidden', !(on = !on));
+          if (++n >= 6) {
+            clearInterval(blink);
+            if (caret) caret.classList.add('is-hidden');
+            if (subtitle) subtitle.classList.add('is-shown');
+            if (ctaRow) ctaRow.classList.add('is-shown');
+            setTimeout(() => {
+              if (scrollInd) scrollInd.classList.add('is-shown');
+            }, 400);
+          }
+        }, 400);
+      }
+    }
+    tick();
+  }
+
+  // ====== INTERSECTION OBSERVER (reveal + media clip) ======
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-in');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+  function observeElements(scope) {
+    const root = scope || document;
+    root.querySelectorAll('[data-reveal]:not(.is-in), .media-reveal:not(.is-in)').forEach(el => {
+      io.observe(el);
+    });
+  }
+
+  // ====== PAGE NAVIGATION ======
+  const pages = document.querySelectorAll('.page');
+  const navLinks = document.querySelectorAll('[data-page]');
+  
+  function updateNavActive(pageId) {
+    document.querySelectorAll('.nav-link').forEach(l => {
+      l.classList.toggle('active', l.dataset.page === pageId && l.classList.contains('nav-link'));
+    });
+  }
+  
+  function showPage(pageId) {
+    const current = document.querySelector('.page.active');
+    const next = document.getElementById(`page-${pageId}`);
+    if (!next || current === next) return;
+    
+    // Stop rain if leaving home
+    if (current.id === 'page-home') stopRain();
+    
+    // Fade out
+    current.style.opacity = '0';
+    
+    setTimeout(() => {
+      current.classList.remove('active');
+      current.style.opacity = '';
+      
+      next.classList.add('active');
+      next.style.opacity = '0';
+      window.scrollTo(0, 0);
+      
+      // Force reflow
+      next.offsetHeight;
+      
+      // Fade in
+      next.style.transition = 'opacity 500ms cubic-bezier(.22,1,.36,1)';
+      next.style.opacity = '1';
+      
+      setTimeout(() => {
+        next.style.transition = '';
+        next.style.opacity = '';
+      }, 500);
+      
+      // Re-init animations
+      observeElements(next);
+      
+      if (pageId === 'home') {
+        setTimeout(() => {
+          startRain();
+          runTypewriter();
+        }, 200);
+      }
+      
+      updateNavActive(pageId);
+      
+      // Close mobile nav if open
+      document.getElementById('nav-links').classList.remove('open');
+    }, 300);
+  }
+  
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const page = link.dataset.page;
+      if (page) showPage(page);
+    });
+  });
+
+  // ====== MOBILE NAV TOGGLE ======
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinksContainer = document.getElementById('nav-links');
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      navLinksContainer.classList.toggle('open');
+      navToggle.textContent = navLinksContainer.classList.contains('open') ? 'CLOSE' : 'MENU';
+    });
+  }
+
+  // ====== FAQ ACCORDION ======
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ====== FILTER TABS (visual only) ======
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  // ====== CONTACT FORM ======
+  const form = document.getElementById('contact-form');
+  const formStatus = document.getElementById('form-status');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      formStatus.classList.add('is-shown');
+      setTimeout(() => {
+        form.reset();
+      }, 500);
+      setTimeout(() => {
+        formStatus.classList.remove('is-shown');
+      }, 6000);
+    });
+  }
+
+  // ====== CLOCK ======
+  function updateClock() {
+    const now = new Date();
+    const estTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+    const h = String(estTime.getHours()).padStart(2, '0');
+    const m = String(estTime.getMinutes()).padStart(2, '0');
+    const s = String(estTime.getSeconds()).padStart(2, '0');
+    const clock = document.getElementById('clock');
+    const statusTime = document.getElementById('status-time');
+    if (clock) clock.textContent = `${h}:${m}`;
+    if (statusTime) statusTime.textContent = `${h}:${m}:${s} EST`;
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // ====== INIT ======
+  document.addEventListener('DOMContentLoaded', () => {
+    observeElements();
+    startRain();
+    runTypewriter();
+  });
+
+  // Pause rain when home page not in view (tab hidden)
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopRain();
+    } else if (document.getElementById('page-home').classList.contains('active')) {
+      startRain();
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
