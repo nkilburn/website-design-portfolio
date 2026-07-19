@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cor tex — Web Design & AI Automation Studio</title>
+<title>northninth — Web Design & AI Automation Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800;900&display=swap">
@@ -11,15 +11,15 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0a0a0a;
-  --bg-elev: #111111;
+  --bg: #030712;
+  --bg-elev: #0a0f1c;
   --text: #ffffff;
-  --text-soft: #dadada;
-  --text-mute: #888888;
-  --text-dim: #555555;
-  --accent: rgba(200, 170, 130, 1);
-  --accent-soft: rgba(200, 170, 130, 0.25);
-  --accent-glow: rgba(200, 170, 130, 0.08);
+  --text-soft: #dadde2;
+  --text-mute: #7d828c;
+  --text-dim: #4b4f58;
+  --accent: #B6BCC6;
+  --accent-soft: rgba(182, 188, 198, 0.25);
+  --accent-glow: rgba(182, 188, 198, 0.08);
   --line: rgba(255, 255, 255, 0.10);
   --line-soft: rgba(255, 255, 255, 0.06);
   --ease-quiet: cubic-bezier(.22, 1, .36, 1);
@@ -99,7 +99,7 @@ h1, h2, h3, h4 {
   justify-content: space-between;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  background: rgba(10, 10, 10, 0.65);
+  background: rgba(3, 7, 18, 0.65);
   border-bottom: 1px solid var(--line-soft);
 }
 
@@ -112,18 +112,14 @@ h1, h2, h3, h4 {
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0;
   cursor: none;
   background: none;
   border: none;
 }
 
-.nav-logo::before {
-  content: '';
-  width: 6px; height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-}
+.wm-north { color: #B6BCC6; }
+.wm-ninth { color: #fff; }
 
 .nav-links {
   display: flex;
@@ -219,11 +215,15 @@ h1, h2, h3, h4 {
   opacity: 0;
   transition: opacity 500ms var(--ease-quiet);
   min-height: 100vh;
+  content-visibility: auto;
+  contain-intrinsic-size: 100vh;
 }
 
 .page.active {
   display: block;
   opacity: 1;
+  content-visibility: visible;
+  contain-intrinsic-size: auto;
 }
 
 /* ====== HERO ====== */
@@ -247,7 +247,7 @@ h1, h2, h3, h4 {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 30% 50%, transparent 0%, rgba(10,10,10,0.65) 55%, var(--bg) 100%);
+  background: radial-gradient(ellipse at 30% 50%, transparent 0%, rgba(3,7,18,0.65) 55%, var(--bg) 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -648,6 +648,76 @@ h1, h2, h3, h4 {
 [data-reveal-delay="2"] { transition-delay: 200ms; }
 [data-reveal-delay="3"] { transition-delay: 300ms; }
 [data-reveal-delay="4"] { transition-delay: 400ms; }
+
+/* Stagger sibling reveals */
+.work-grid > [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+.work-grid > [data-reveal]:nth-child(2) { transition-delay: 60ms; }
+.work-grid > [data-reveal]:nth-child(3) { transition-delay: 120ms; }
+.work-grid > [data-reveal]:nth-child(4) { transition-delay: 180ms; }
+.work-grid > [data-reveal]:nth-child(5) { transition-delay: 240ms; }
+.work-grid > [data-reveal]:nth-child(6) { transition-delay: 300ms; }
+.work-grid > [data-reveal]:nth-child(7) { transition-delay: 360ms; }
+.work-grid > [data-reveal]:nth-child(8) { transition-delay: 420ms; }
+
+.featured-grid > [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+.featured-grid > [data-reveal]:nth-child(2) { transition-delay: 80ms; }
+.featured-grid > [data-reveal]:nth-child(3) { transition-delay: 160ms; }
+
+.process-grid > [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+.process-grid > [data-reveal]:nth-child(2) { transition-delay: 60ms; }
+.process-grid > [data-reveal]:nth-child(3) { transition-delay: 120ms; }
+.process-grid > [data-reveal]:nth-child(4) { transition-delay: 180ms; }
+
+.principles-grid > [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+.principles-grid > [data-reveal]:nth-child(2) { transition-delay: 80ms; }
+.principles-grid > [data-reveal]:nth-child(3) { transition-delay: 160ms; }
+
+.service-rows > [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+.service-rows > [data-reveal]:nth-child(2) { transition-delay: 50ms; }
+.service-rows > [data-reveal]:nth-child(3) { transition-delay: 100ms; }
+.service-rows > [data-reveal]:nth-child(4) { transition-delay: 150ms; }
+.service-rows > [data-reveal]:nth-child(5) { transition-delay: 200ms; }
+
+.right > [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+.right > [data-reveal]:nth-child(2) { transition-delay: 100ms; }
+.right > [data-reveal]:nth-child(3) { transition-delay: 200ms; }
+
+.tools-grid > [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+.tools-grid > [data-reveal]:nth-child(2) { transition-delay: 50ms; }
+.tools-grid > [data-reveal]:nth-child(3) { transition-delay: 100ms; }
+.tools-grid > [data-reveal]:nth-child(4) { transition-delay: 150ms; }
+.tools-grid > [data-reveal]:nth-child(5) { transition-delay: 200ms; }
+.tools-grid > [data-reveal]:nth-child(6) { transition-delay: 250ms; }
+.tools-grid > [data-reveal]:nth-child(7) { transition-delay: 300ms; }
+.tools-grid > [data-reveal]:nth-child(8) { transition-delay: 350ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .work-grid > [data-reveal],
+  .featured-grid > [data-reveal],
+  .process-grid > [data-reveal],
+  .principles-grid > [data-reveal],
+  .service-rows > [data-reveal],
+  .right > [data-reveal],
+  .tools-grid > [data-reveal] { transition-delay: 0ms; }
+}
+
+/* Cursor ring label */
+#cursor-dot .cursor-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+#cursor-dot.is-labeled .cursor-label { opacity: 1; }
 
 /* ====== MEDIA DIRECTIONAL CLIP ====== */
 .media {
@@ -1371,14 +1441,7 @@ h1, h2, h3, h4 {
   margin-bottom: 16px;
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.footer-brand::before {
-  content: '';
-  width: 6px; height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
+  gap: 0;
 }
 
 .footer-tag {
@@ -1454,7 +1517,7 @@ h1, h2, h3, h4 {
   justify-content: space-between;
   align-items: center;
   padding: 10px 40px;
-  background: rgba(10, 10, 10, 0.85);
+  background: rgba(3, 7, 18, 0.85);
   backdrop-filter: blur(12px);
   border-top: 1px solid var(--line-soft);
   font-family: 'JetBrains Mono', monospace;
@@ -1511,8 +1574,22 @@ h1, h2, h3, h4 {
   background: linear-gradient(to bottom, var(--accent), transparent);
 }
 
+.hero-coords {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  z-index: 2;
+  opacity: 0.35;
+}
+
 @media (max-width: 768px) {
   .scroll-indicator { display: none; }
+  .hero-coords { bottom: 20px; right: 20px; font-size: 9px; }
 }
 
 /* ====== FEATURED WORK (HOME) ====== */
@@ -1606,7 +1683,7 @@ h1, h2, h3, h4 {
 
 <!-- ====== NAV ====== -->
 <nav class="nav">
-  <button class="nav-logo" data-page="home">CORTEX / STUDIO</button>
+  <button class="nav-logo" data-page="home"><span class="wm-north">north</span><span class="wm-ninth">ninth</span></button>
   <div class="nav-links" id="nav-links">
     <button class="nav-link active" data-page="home">Home</button>
     <button class="nav-link" data-page="work">Work</button>
@@ -1631,13 +1708,28 @@ h1, h2, h3, h4 {
         <span><span class="status-dot"></span>Available for Q2 2025 — 2 slots remaining</span>
       </div>
       <h1><span id="type-host"></span><span class="hero-caret" id="type-caret"></span></h1>
-      <p class="hero-subtitle" id="hero-subtitle">Cor tex is a small studio building marketing websites, internal tools, and AI automation systems for service businesses, agencies, and operators who'd rather not hire a fifth junior.</p>
+      <p class="hero-subtitle" id="hero-subtitle">northninth is a small studio building marketing websites, internal tools, and AI automation systems for service businesses, agencies, and operators who'd rather not hire a fifth junior.</p>
       <div class="hero-cta-row" id="hero-cta-row">
         <button class="btn-primary" data-page="work">See selected work <span>→</span></button>
         <button class="btn-ghost" data-page="contact">Start a project</button>
       </div>
     </div>
     <div class="scroll-indicator" id="scroll-indicator">Scroll<span></span></div>
+    <div class="hero-coords">40.6782° N / 73.9442° W</div>
+    <div id="mascot-zone" style="position:absolute; right:9vw; bottom:10vh; width:200px; height:240px; cursor:pointer; z-index:5;">
+      <svg viewBox="0 0 180 220" style="width:100%; height:100%; overflow:visible;">
+        <g id="needle">
+          <polygon points="90,15 130,110 90,110 50,110" fill="#eef0f4"/>
+          <polygon points="90,110 130,110 90,205 50,110" fill="#B6BCC6"/>
+          <polygon points="90,15 102,48 78,48" fill="#E24B4A"/>
+          <polygon points="90,205 102,172 78,172" fill="#E24B4A"/>
+          <circle cx="90" cy="110" r="24" fill="#0a0f1c" stroke="#eef0f4" stroke-width="1.5"/>
+          <g id="eyeL"><circle cx="79" cy="108" r="8" fill="#fff"/><circle id="pupilL" cx="79" cy="108" r="3.6" fill="#030712"/></g>
+          <g id="eyeR"><circle cx="101" cy="108" r="8" fill="#fff"/><circle id="pupilR" cx="101" cy="108" r="3.6" fill="#030712"/></g>
+        </g>
+      </svg>
+    </div>
+    <div id="mascot-hint" style="position:absolute; bottom:5vh; right:9vw; color:#5f6570; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; z-index:5; opacity:0; transition:opacity 400ms ease;">click to ask</div>
   </section>
 
   <!-- Stats -->
@@ -1675,7 +1767,7 @@ h1, h2, h3, h4 {
       <div class="right">
         <article class="cap-card" data-reveal>
           <div class="cap-meta"><span class="num">01</span><span>Web Design & Build</span></div>
-          <div class="cap-image media media-reveal dir-right"><img src="https://picsum.photos/seed/cortex-web-design/800/500" alt="Web design"></div>
+          <div class="cap-image media media-reveal dir-right"><img src="https://picsum.photos/seed/northninth-web-design/800/500" alt="Web design"></div>
           <h3>Marketing sites that earn their budget.</h3>
           <p>Strategy, copy, design, and build — under one roof. We work in Webflow, Framer, and Next.js depending on what your team will actually maintain after we hand over the keys.</p>
           <ul class="cap-list">
@@ -1688,7 +1780,7 @@ h1, h2, h3, h4 {
 
         <article class="cap-card" data-reveal>
           <div class="cap-meta"><span class="num">02</span><span>AI Automation</span></div>
-          <div class="cap-image media media-reveal dir-left"><img src="https://picsum.photos/seed/cortex-automation/800/500" alt="AI automation"></div>
+          <div class="cap-image media media-reveal dir-left"><img src="https://picsum.photos/seed/northninth-automation/800/500" alt="AI automation"></div>
           <h3>The work no one wants to do, done by software.</h3>
           <p>Lead routing, document processing, client onboarding, internal Q&A, report generation. We map the workflow, build it in n8n / Make / custom Python, and ship a small dashboard you can actually read.</p>
           <ul class="cap-list">
@@ -1701,7 +1793,7 @@ h1, h2, h3, h4 {
 
         <article class="cap-card" data-reveal>
           <div class="cap-meta"><span class="num">03</span><span>Internal Tools & Dashboards</span></div>
-          <div class="cap-image media media-reveal dir-bottom"><img src="https://picsum.photos/seed/cortex-dashboards/800/500" alt="Dashboards"></div>
+          <div class="cap-image media media-reveal dir-bottom"><img src="https://picsum.photos/seed/northninth-dashboards/800/500" alt="Dashboards"></div>
           <h3>Surfaces for the work that already happens.</h3>
           <p>If your team lives in Notion, Airtable, Slack, and a Google Sheet that no one fully understands, we build the thin layer on top that makes it usable — internal dashboards, agent copilots, and the small apps that bridge your stack.</p>
           <ul class="cap-list">
@@ -1725,7 +1817,7 @@ h1, h2, h3, h4 {
       <div class="featured-grid">
         <a href="#" class="work-card" data-reveal>
           <div class="media media-reveal dir-right" style="aspect-ratio: 4/5;">
-            <img src="https://picsum.photos/seed/cortex-fintech/600/750" alt="Halcyon Capital">
+            <img src="https://picsum.photos/seed/northninth-fintech/600/750" alt="Halcyon Capital">
           </div>
           <div class="work-meta">
             <span><span class="num">01</span> / Halcyon Capital</span>
@@ -1737,7 +1829,7 @@ h1, h2, h3, h4 {
 
         <a href="#" class="work-card" data-reveal data-reveal-delay="1">
           <div class="media media-reveal dir-top" style="aspect-ratio: 4/5;">
-            <img src="https://picsum.photos/seed/cortex-healthtech/600/750" alt="Northwind Health">
+            <img src="https://picsum.photos/seed/northninth-healthtech/600/750" alt="Northwind Health">
           </div>
           <div class="work-meta">
             <span><span class="num">02</span> / Northwind Health</span>
@@ -1749,7 +1841,7 @@ h1, h2, h3, h4 {
 
         <a href="#" class="work-card" data-reveal data-reveal-delay="2">
           <div class="media media-reveal dir-left" style="aspect-ratio: 4/5;">
-            <img src="https://picsum.photos/seed/cortex-freight/600/750" alt="Atlas Freight">
+            <img src="https://picsum.photos/seed/northninth-freight/600/750" alt="Atlas Freight">
           </div>
           <div class="work-meta">
             <span><span class="num">03</span> / Atlas Freight Co.</span>
@@ -1832,7 +1924,7 @@ h1, h2, h3, h4 {
 
     <a href="#" class="work-card" data-reveal>
       <div class="media media-reveal dir-right">
-        <img src="https://picsum.photos/seed/cortex-fintech/600/750" alt="Halcyon Capital">
+        <img src="https://picsum.photos/seed/northninth-fintech/600/750" alt="Halcyon Capital">
       </div>
       <div class="work-meta">
         <span><span class="num">01</span> / Halcyon Capital</span>
@@ -1849,7 +1941,7 @@ h1, h2, h3, h4 {
 
     <a href="#" class="work-card" data-reveal data-reveal-delay="1">
       <div class="media media-reveal dir-top">
-        <img src="https://picsum.photos/seed/cortex-healthtech/600/750" alt="Northwind Health">
+        <img src="https://picsum.photos/seed/northninth-healthtech/600/750" alt="Northwind Health">
       </div>
       <div class="work-meta">
         <span><span class="num">02</span> / Northwind Health</span>
@@ -1866,7 +1958,7 @@ h1, h2, h3, h4 {
 
     <a href="#" class="work-card" data-reveal>
       <div class="media media-reveal dir-left">
-        <img src="https://picsum.photos/seed/cortex-freight/600/750" alt="Atlas Freight">
+        <img src="https://picsum.photos/seed/northninth-freight/600/750" alt="Atlas Freight">
       </div>
       <div class="work-meta">
         <span><span class="num">03</span> / Atlas Freight Co.</span>
@@ -1882,7 +1974,7 @@ h1, h2, h3, h4 {
 
     <a href="#" class="work-card" data-reveal data-reveal-delay="1">
       <div class="media media-reveal dir-bottom">
-        <img src="https://picsum.photos/seed/cortex-polaris/600/750" alt="Polaris Studio">
+        <img src="https://picsum.photos/seed/northninth-polaris/600/750" alt="Polaris Studio">
       </div>
       <div class="work-meta">
         <span><span class="num">04</span> / Polaris Studio</span>
@@ -1899,7 +1991,7 @@ h1, h2, h3, h4 {
 
     <a href="#" class="work-card" data-reveal>
       <div class="media media-reveal dir-right">
-        <img src="https://picsum.photos/seed/cortex-meridian-law/600/750" alt="Meridian Law">
+        <img src="https://picsum.photos/seed/northninth-meridian-law/600/750" alt="Meridian Law">
       </div>
       <div class="work-meta">
         <span><span class="num">05</span> / Meridian Law</span>
@@ -1915,7 +2007,7 @@ h1, h2, h3, h4 {
 
     <a href="#" class="work-card" data-reveal data-reveal-delay="1">
       <div class="media media-reveal dir-top">
-        <img src="https://picsum.photos/seed/cortex-bluebird/600/750" alt="Bluebird Education">
+        <img src="https://picsum.photos/seed/northninth-bluebird/600/750" alt="Bluebird Education">
       </div>
       <div class="work-meta">
         <span><span class="num">06</span> / Bluebird Education</span>
@@ -1931,7 +2023,7 @@ h1, h2, h3, h4 {
 
     <a href="#" class="work-card" data-reveal>
       <div class="media media-reveal dir-left">
-        <img src="https://picsum.photos/seed/cortex-saas-dashboard/600/750" alt="SaaS Dashboard">
+        <img src="https://picsum.photos/seed/northninth-saas-dashboard/600/750" alt="SaaS Dashboard">
       </div>
       <div class="work-meta">
         <span><span class="num">07</span> / (NDA) B2B SaaS</span>
@@ -1947,7 +2039,7 @@ h1, h2, h3, h4 {
 
     <a href="#" class="work-card" data-reveal data-reveal-delay="1">
       <div class="media media-reveal dir-bottom">
-        <img src="https://picsum.photos/seed/cortex-ml-platform/600/750" alt="ML Platform">
+        <img src="https://picsum.photos/seed/northninth-ml-platform/600/750" alt="ML Platform">
       </div>
       <div class="work-meta">
         <span><span class="num">08</span> / Vertex Robotics</span>
@@ -2146,7 +2238,7 @@ h1, h2, h3, h4 {
   <div class="work-header">
     <div class="section-label">01 / Studio</div>
     <h2 style="font-size: clamp(40px, 6vw, 96px); font-weight: 900; line-height: 0.98; letter-spacing: -0.04em; margin-bottom: 32px;">Four people,<br>no project managers.</h2>
-    <p class="section-lede">Cor tex has been a four-person studio since 2022. We've turned down growth on purpose — the work gets worse when the team gets bigger, and we'd rather do fewer projects well than more projects at scale.</p>
+    <p class="section-lede">northninth has been a four-person studio since 2022. We've turned down growth on purpose — the work gets worse when the team gets bigger, and we'd rather do fewer projects well than more projects at scale.</p>
   </div>
 
   <!-- Manifesto -->
@@ -2196,21 +2288,21 @@ h1, h2, h3, h4 {
       <div class="right">
         <article class="cap-card" data-reveal>
           <div class="cap-meta"><span class="num">01</span><span>Design & strategy</span></div>
-          <div class="cap-image media media-reveal dir-right"><img src="https://picsum.photos/seed/cortex-design-lead/800/500" alt="Design"></div>
+          <div class="cap-image media media-reveal dir-right"><img src="https://picsum.photos/seed/northninth-design-lead/800/500" alt="Design"></div>
           <h3>Two designers, one copywriter.</h3>
           <p>The same person who writes the homepage headline will design the homepage. The same person who designs the dashboard will write the empty states. We don't believe in handing off copy to a designer or design to a developer.</p>
         </article>
 
         <article class="cap-card" data-reveal>
           <div class="cap-meta"><span class="num">02</span><span>Build & automation</span></div>
-          <div class="cap-image media media-reveal dir-left"><img src="https://picsum.photos/seed/cortex-build-lead/800/500" alt="Build"></div>
+          <div class="cap-image media media-reveal dir-left"><img src="https://picsum.photos/seed/northninth-build-lead/800/500" alt="Build"></div>
           <h3>Two engineers, full-stack by necessity.</h3>
           <p>One leans frontend, one leans backend, both ship to production. We work in TypeScript, Python, and SQL. We've shipped projects in Next.js, Webflow, Framer, n8n, Make, Airtable, Postgres, Supabase, and a few things we wouldn't recommend.</p>
         </article>
 
         <article class="cap-card" data-reveal>
           <div class="cap-meta"><span class="num">03</span><span>How we collaborate</span></div>
-          <div class="cap-image media media-reveal dir-bottom"><img src="https://picsum.photos/seed/cortex-collab/800/500" alt="Collaboration"></div>
+          <div class="cap-image media media-reveal dir-bottom"><img src="https://picsum.photos/seed/northninth-collab/800/500" alt="Collaboration"></div>
           <h3>One Slack channel, one Linear board.</h3>
           <p>No project managers means you talk to the people doing the work. We share a Slack channel with your team, a Linear board with the work, and a weekly Friday demo. That's the whole communication structure.</p>
         </article>
@@ -2347,7 +2439,7 @@ h1, h2, h3, h4 {
     <aside class="contact-sidebar">
       <div class="sidebar-block">
         <span class="label">Direct email</span>
-        <div class="value"><a href="mailto:hello@cortex.studio">hello@cortex.studio</a></div>
+        <div class="value"><a href="mailto:hello@northninth.com">hello@northninth.com</a></div>
       </div>
 
       <div class="sidebar-block">
@@ -2421,7 +2513,7 @@ h1, h2, h3, h4 {
   <div class="footer-inner">
     <div class="footer-top">
       <div>
-        <div class="footer-brand">CORTEX / STUDIO</div>
+        <div class="footer-brand"><span class="wm-north">north</span><span class="wm-ninth">ninth</span></div>
         <p class="footer-tag">A four-person studio building websites and AI automation for service businesses, agencies, and operators. Brooklyn, NY. Since 2021.</p>
       </div>
       <div class="footer-col">
@@ -2450,12 +2542,12 @@ h1, h2, h3, h4 {
           <li><a href="#">LinkedIn</a></li>
           <li><a href="#">Are.na</a></li>
           <li><a href="#">GitHub</a></li>
-          <li><a href="mailto:hello@cortex.studio">hello@cortex.studio</a></li>
+          <li><a href="mailto:hello@northninth.com">hello@northninth.com</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <div>© 2025 Cor tex Studio LLC · All rights reserved</div>
+      <div>© 2025 northninth Studio LLC · All rights reserved</div>
       <div class="right">
         <span><span class="clock" id="clock">--:--</span> EST</span>
         <span>Brooklyn, NY · 40.6782° N</span>
@@ -2487,6 +2579,12 @@ h1, h2, h3, h4 {
     const pos = { x: -100, y: -100 };
     const target = { x: -100, y: -100 };
     let hover = false;
+    let cursorLabel = '';
+    
+    // Create label element inside cursor
+    const labelEl = document.createElement('span');
+    labelEl.className = 'cursor-label';
+    cursor.appendChild(labelEl);
     
     addEventListener('mousemove', e => {
       target.x = e.clientX;
@@ -2494,10 +2592,17 @@ h1, h2, h3, h4 {
     });
     
     document.addEventListener('mouseover', e => {
-      if (e.target.closest('a, button, input, select, textarea, [data-cursor-hover]')) hover = true;
+      const el = e.target.closest('a, button, input, select, textarea, [data-cursor-hover]');
+      if (el) {
+        hover = true;
+        cursorLabel = el.dataset.cursorLabel || '';
+      }
     });
     document.addEventListener('mouseout', e => {
-      if (e.target.closest('a, button, input, select, textarea, [data-cursor-hover]')) hover = false;
+      if (e.target.closest('a, button, input, select, textarea, [data-cursor-hover]')) {
+        hover = false;
+        cursorLabel = '';
+      }
     });
     
     (function loop() {
@@ -2511,55 +2616,100 @@ h1, h2, h3, h4 {
       cursor.style.background = hover ? 'transparent' : '#fff';
       cursor.style.border = hover ? '1.5px solid rgba(255,255,255,0.6)' : '0 solid transparent';
       cursor.style.mixBlendMode = hover ? 'normal' : 'difference';
+      if (cursorLabel && hover) {
+        labelEl.textContent = cursorLabel;
+        cursor.classList.add('is-labeled');
+      } else {
+        cursor.classList.remove('is-labeled');
+      }
     })();
   }
 
-  // ====== GLYPH RAIN ======
+  // ====== DOT GRID CANVAS ======
   const cvs = document.getElementById('glyph-rain');
   const ctx = cvs.getContext('2d');
-  let rainRunning = false;
-  let rainRAF = null;
-  let drops = [];
-  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789{}<>[]/_=-+*';
+  let gridRunning = false;
+  let gridVisible = false;
+  let gridRAF = null;
+  const spacing = 28;
+  const glowRadius = 220;
+  const mouse = { x: -9999, y: -9999 };
 
-  function resizeRain() {
+  function resizeGrid() {
     if (!cvs.parentElement) return;
-    cvs.width = cvs.parentElement.offsetWidth;
-    cvs.height = cvs.parentElement.offsetHeight;
-    const cols = Math.floor(cvs.width / 20);
-    drops = Array.from({length: cols}, () => Math.random() * -cvs.height);
+    const rect = cvs.parentElement.getBoundingClientRect();
+    cvs.width = rect.width;
+    cvs.height = rect.height;
   }
 
-  function rainFrame() {
-    if (!rainRunning) return;
-    ctx.fillStyle = 'rgba(10,10,10,0.08)';
+  function drawDotGrid() {
+    if (!gridRunning || !gridVisible) return;
+    ctx.fillStyle = '#030712';
     ctx.fillRect(0, 0, cvs.width, cvs.height);
-    ctx.font = '14px "JetBrains Mono", monospace';
-    for (let i = 0; i < drops.length; i++) {
-      const y = drops[i];
-      const x = i * 20;
-      const bright = Math.random() < 0.02;
-      ctx.fillStyle = bright ? 'rgba(255,230,180,0.95)' : 'rgba(200,170,130,0.65)';
-      ctx.fillText(CHARS[Math.floor(Math.random() * CHARS.length)], x, y);
-      drops[i] = y > cvs.height && Math.random() > 0.975 ? 0 : y + 12;
+    for (let y = spacing; y < cvs.height; y += spacing) {
+      for (let x = spacing; x < cvs.width; x += spacing) {
+        const dx = x - mouse.x, dy = y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const proximity = Math.max(0, 1 - dist / glowRadius);
+        const alpha = 0.10 + proximity * 0.55;
+        const size = 1 + proximity * 1.3;
+        ctx.fillStyle = `rgba(182,188,198,${alpha.toFixed(3)})`;
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
-    rainRAF = requestAnimationFrame(rainFrame);
+    gridRAF = requestAnimationFrame(drawDotGrid);
   }
 
-  function startRain() {
-    if (rainRunning || reduced) return;
-    rainRunning = true;
-    resizeRain();
-    rainFrame();
+  function startGrid() {
+    if (gridRunning) return;
+    gridRunning = true;
+    resizeGrid();
+    if (gridVisible) drawDotGrid();
   }
 
-  function stopRain() {
-    rainRunning = false;
-    if (rainRAF) cancelAnimationFrame(rainRAF);
+  function stopGrid() {
+    gridRunning = false;
+    if (gridRAF) { cancelAnimationFrame(gridRAF); gridRAF = null; }
+  }
+
+  // IntersectionObserver: only draw when hero is in viewport
+  const hero = document.querySelector('.hero');
+  if (hero) {
+    const gridIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        gridVisible = e.isIntersecting;
+        if (gridVisible && gridRunning && !gridRAF) {
+          drawDotGrid();
+        } else if (!gridVisible && gridRAF) {
+          cancelAnimationFrame(gridRAF);
+          gridRAF = null;
+        }
+      });
+    }, { threshold: 0 });
+    gridIO.observe(hero);
+  }
+
+  function onGridMouseMove(e) {
+    const rect = cvs.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  }
+
+  // Track mouse over hero for cursor glow
+  if (hero && !reduced) {
+    hero.addEventListener('mousemove', onGridMouseMove);
+    hero.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+    hero.addEventListener('mouseenter', (e) => {
+      const rect = cvs.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
   }
 
   addEventListener('resize', () => {
-    if (rainRunning) resizeRain();
+    if (gridRunning) resizeGrid();
   });
 
   // ====== TYPEWRITER ======
@@ -2649,8 +2799,8 @@ h1, h2, h3, h4 {
     const next = document.getElementById(`page-${pageId}`);
     if (!next || current === next) return;
     
-    // Stop rain if leaving home
-    if (current.id === 'page-home') stopRain();
+    // Stop grid if leaving home
+    if (current.id === 'page-home') stopGrid();
     
     // Fade out
     current.style.opacity = '0';
@@ -2680,7 +2830,7 @@ h1, h2, h3, h4 {
       
       if (pageId === 'home') {
         setTimeout(() => {
-          startRain();
+          startGrid();
           runTypewriter();
         }, 200);
       }
@@ -2762,18 +2912,68 @@ h1, h2, h3, h4 {
   // ====== INIT ======
   document.addEventListener('DOMContentLoaded', () => {
     observeElements();
-    startRain();
+    startGrid();
     runTypewriter();
   });
 
-  // Pause rain when home page not in view (tab hidden)
+  // Pause grid when home page not in view (tab hidden)
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-      stopRain();
+      stopGrid();
     } else if (document.getElementById('page-home').classList.contains('active')) {
-      startRain();
+      startGrid();
     }
   });
+
+  // ====== COMPASS MASCOT ======
+  (function initMascot() {
+    const zone = document.getElementById('mascot-zone');
+    const hint = document.getElementById('mascot-hint');
+    if (!zone) return;
+
+    const pupilL = document.getElementById('pupilL');
+    const pupilR = document.getElementById('pupilR');
+    const needle = document.getElementById('needle');
+    const eyeL = { cx: 79, cy: 108 };
+    const eyeR = { cx: 101, cy: 108 };
+    let angle = 0, targetAngle = 0;
+
+    zone.addEventListener('mouseenter', () => hint.style.opacity = '1');
+    zone.addEventListener('mouseleave', () => hint.style.opacity = '0');
+
+    document.addEventListener('mousemove', e => {
+      const svg = zone.querySelector('svg');
+      const rect = svg.getBoundingClientRect();
+      const scaleX = 180 / rect.width, scaleY = 220 / rect.height;
+      const mx = (e.clientX - rect.left) * scaleX;
+      const my = (e.clientY - rect.top) * scaleY;
+
+      [[pupilL, eyeL], [pupilR, eyeR]].forEach(([pupil, eye]) => {
+        const dx = mx - eye.cx, dy = my - eye.cy;
+        const dist = Math.min(Math.sqrt(dx*dx + dy*dy), 36);
+        const a = Math.atan2(dy, dx);
+        pupil.setAttribute('cx', eye.cx + Math.cos(a) * (dist/36 * 2.6));
+        pupil.setAttribute('cy', eye.cy + Math.sin(a) * (dist/36 * 2.6));
+      });
+
+      if (!reduced) {
+        const dx = mx - 90, dy = my - 110;
+        targetAngle = Math.atan2(dx, -dy) * 8;
+      }
+    });
+
+    function loop() {
+      angle += (targetAngle - angle) * 0.04;
+      needle.setAttribute('transform', `rotate(${angle} 90 110)`);
+      requestAnimationFrame(loop);
+    }
+    if (!reduced) loop();
+
+    zone.addEventListener('click', () => {
+      // Placeholder: wire this to open the chat/FAQ panel once that's built.
+      console.log('mascot clicked — open chat panel here');
+    });
+  })();
 
 })();
 </script>
