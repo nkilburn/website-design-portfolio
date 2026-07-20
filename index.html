@@ -273,38 +273,6 @@ h1, h2, h3, h4 {
   width: 100%;
 }
 
-.hero-label {
-  margin-bottom: 48px;
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-mute);
-}
-
-.hero-label::before {
-  content: '';
-  width: 28px;
-  height: 1px;
-  background: var(--accent);
-}
-
-.hero-label .status-dot {
-  width: 6px; height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-  margin-right: 4px;
-  animation: pulse-status 2s ease-in-out infinite;
-}
-
-@keyframes pulse-status {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
 .hero h1 {
   font-size: clamp(44px, 7.2vw, 116px);
   font-weight: 900;
@@ -1521,42 +1489,6 @@ h1, h2, h3, h4 {
   .footer { padding: 60px 20px 30px; }
 }
 
-/* ====== STATUS BAR ====== */
-.status-bar {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 90;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 40px;
-  background: rgba(3, 7, 18, 0.85);
-  backdrop-filter: blur(12px);
-  border-top: 1px solid var(--line-soft);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-
-.status-bar .live::before {
-  content: '';
-  display: inline-block;
-  width: 6px; height: 6px;
-  background: var(--accent);
-  border-radius: 50%;
-  margin-right: 8px;
-  vertical-align: 1px;
-  animation: pulse-status 2s ease-in-out infinite;
-}
-
-.status-bar .right { display: flex; gap: 24px; }
-
-@media (max-width: 768px) {
-  .status-bar { padding: 8px 16px; font-size: 9px; }
-  .status-bar .right { display: none; }
-}
 
 /* ====== HERO SCROLL INDICATOR ====== */
 .scroll-indicator {
@@ -1587,22 +1519,8 @@ h1, h2, h3, h4 {
   background: linear-gradient(to bottom, var(--accent), transparent);
 }
 
-.hero-coords {
-  position: absolute;
-  bottom: 40px;
-  right: 40px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  z-index: 3;
-  opacity: 0.35;
-}
-
 @media (max-width: 768px) {
   .scroll-indicator { display: none; }
-  .hero-coords { bottom: 20px; right: 20px; font-size: 9px; }
 }
 
 /* ====== FEATURED WORK (HOME) ====== */
@@ -1718,9 +1636,6 @@ h1, h2, h3, h4 {
     <canvas id="glyph-rain"></canvas>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="hero-label">
-        <span><span class="status-dot"></span>Available for Q2 2025 — 2 slots remaining</span>
-      </div>
       <h1><span id="type-host"></span><span class="hero-caret" id="type-caret"></span></h1>
       <p class="hero-subtitle" id="hero-subtitle">northninth is a small studio building marketing websites, internal tools, and AI automation systems for service businesses, agencies, and operators who'd rather not hire a fifth junior.</p>
       <div class="hero-cta-row" id="hero-cta-row">
@@ -1729,7 +1644,6 @@ h1, h2, h3, h4 {
       </div>
     </div>
     <div class="scroll-indicator" id="scroll-indicator">Scroll<span></span></div>
-    <div class="hero-coords">40.6782° N / 73.9442° W</div>
     <div id="stack" style="position:absolute; right:9vw; bottom:8vh; display:flex; flex-direction:column; align-items:center; gap:34px; z-index:5;">
       <div id="mascot-zone" style="width:150px; height:230px; cursor:pointer;">
         <svg viewBox="0 0 160 230" style="width:100%; height:100%; overflow:visible;">
@@ -2569,21 +2483,12 @@ h1, h2, h3, h4 {
       <div>© 2025 northninth Studio LLC · All rights reserved</div>
       <div class="right">
         <span><span class="clock" id="clock">--:--</span> EST</span>
-        <span>Brooklyn, NY · 40.6782° N</span>
+        <span>Brooklyn, NY</span>
         <span>v4.2 · Last shipped 02/14/25</span>
       </div>
     </div>
   </div>
 </footer>
-
-<!-- Status bar -->
-<div class="status-bar">
-  <div class="live">Studio operational · 2 slots open Q2 2025</div>
-  <div class="right">
-    <span id="status-time">--:--:-- EST</span>
-    <span>Brooklyn, NY</span>
-  </div>
-</div>
 
 <script>
 (function() {
@@ -2921,9 +2826,7 @@ h1, h2, h3, h4 {
     const m = String(estTime.getMinutes()).padStart(2, '0');
     const s = String(estTime.getSeconds()).padStart(2, '0');
     const clock = document.getElementById('clock');
-    const statusTime = document.getElementById('status-time');
     if (clock) clock.textContent = `${h}:${m}`;
-    if (statusTime) statusTime.textContent = `${h}:${m}:${s} EST`;
   }
   updateClock();
   setInterval(updateClock, 1000);
