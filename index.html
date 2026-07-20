@@ -235,6 +235,10 @@ h1, h2, h3, h4 {
   contain-intrinsic-size: auto;
 }
 
+/* ====== MASCOT ====== */
+#stack.hovering #coord-text { opacity: 0; }
+#stack.hovering #hint-text { opacity: 1; }
+
 /* ====== HERO ====== */
 .hero {
   min-height: 100vh;
@@ -1726,20 +1730,25 @@ h1, h2, h3, h4 {
     </div>
     <div class="scroll-indicator" id="scroll-indicator">Scroll<span></span></div>
     <div class="hero-coords">40.6782° N / 73.9442° W</div>
-    <div id="mascot-zone" style="position:absolute; right:9vw; bottom:10vh; width:200px; height:240px; cursor:pointer; z-index:5;">
-      <svg viewBox="0 0 180 220" style="width:100%; height:100%; overflow:visible;">
-        <g id="needle">
-          <polygon points="90,15 130,110 90,110 50,110" fill="#eef0f4"/>
-          <polygon points="90,110 130,110 90,205 50,110" fill="#B6BCC6"/>
-          <polygon points="90,15 102,48 78,48" fill="#E24B4A"/>
-          <polygon points="90,205 102,172 78,172" fill="#E24B4A"/>
-          <circle cx="90" cy="110" r="24" fill="#0a0f1c" stroke="#eef0f4" stroke-width="1.5"/>
-          <g id="eyeL"><circle cx="79" cy="108" r="8" fill="#fff"/><circle id="pupilL" cx="79" cy="108" r="3.6" fill="#030712"/></g>
-          <g id="eyeR"><circle cx="101" cy="108" r="8" fill="#fff"/><circle id="pupilR" cx="101" cy="108" r="3.6" fill="#030712"/></g>
-        </g>
-      </svg>
+    <div id="stack" style="position:absolute; right:9vw; bottom:8vh; display:flex; flex-direction:column; align-items:center; gap:34px; z-index:5;">
+      <div id="mascot-zone" style="width:150px; height:230px; cursor:pointer;">
+        <svg viewBox="0 0 160 230" style="width:100%; height:100%; overflow:visible;">
+          <g id="needle">
+            <polygon points="80,10 108,115 80,115 52,115" fill="#eef0f4"/>
+            <polygon points="80,115 108,115 80,220 52,115" fill="#B6BCC6"/>
+            <polygon points="80,10 88,42 72,42" fill="#E24B4A"/>
+            <polygon points="80,220 88,188 72,188" fill="#E24B4A"/>
+            <circle cx="80" cy="115" r="20" fill="#0a0f1c" stroke="#eef0f4" stroke-width="1.5"/>
+            <g id="eyeL"><circle cx="71" cy="113" r="7" fill="#fff"/><circle id="pL" cx="71" cy="113" r="3.2" fill="#030712"/></g>
+            <g id="eyeR"><circle cx="89" cy="113" r="7" fill="#fff"/><circle id="pR" cx="89" cy="113" r="3.2" fill="#030712"/></g>
+          </g>
+        </svg>
+      </div>
+      <div id="coord-stack" style="position:relative; width:220px; height:16px;">
+        <span id="coord-text" style="position:absolute; left:0; right:0; text-align:center; color:#5f6570; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em;">40.5001&deg; N / 74.4257&deg; W</span>
+        <span id="hint-text" style="position:absolute; left:0; right:0; text-align:center; color:#B6BCC6; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; opacity:0; transition:opacity 300ms ease;">click to ask</span>
+      </div>
     </div>
-    <div id="mascot-hint" style="position:absolute; bottom:5vh; right:9vw; color:#5f6570; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; z-index:5; opacity:0; transition:opacity 400ms ease;">click to ask</div>
   </section>
 
   <!-- Stats -->
@@ -2937,50 +2946,42 @@ h1, h2, h3, h4 {
 
   // ====== COMPASS MASCOT ======
   (function initMascot() {
-    const zone = document.getElementById('mascot-zone');
-    const hint = document.getElementById('mascot-hint');
-    if (!zone) return;
-
-    const pupilL = document.getElementById('pupilL');
-    const pupilR = document.getElementById('pupilR');
+    const pL = document.getElementById('pL'), pR = document.getElementById('pR');
+    const eyeL = {cx:71,cy:113}, eyeR = {cx:89,cy:113};
     const needle = document.getElementById('needle');
-    const eyeL = { cx: 79, cy: 108 };
-    const eyeR = { cx: 101, cy: 108 };
+    const zone = document.getElementById('mascot-zone');
+    const stack = document.getElementById('stack');
     let angle = 0, targetAngle = 0;
 
-    zone.addEventListener('mouseenter', () => hint.style.opacity = '1');
-    zone.addEventListener('mouseleave', () => hint.style.opacity = '0');
+    zone.addEventListener('mouseenter', () => stack.classList.add('hovering'));
+    zone.addEventListener('mouseleave', () => stack.classList.remove('hovering'));
 
     document.addEventListener('mousemove', e => {
       const svg = zone.querySelector('svg');
       const rect = svg.getBoundingClientRect();
-      const scaleX = 180 / rect.width, scaleY = 220 / rect.height;
-      const mx = (e.clientX - rect.left) * scaleX;
-      const my = (e.clientY - rect.top) * scaleY;
-
-      [[pupilL, eyeL], [pupilR, eyeR]].forEach(([pupil, eye]) => {
-        const dx = mx - eye.cx, dy = my - eye.cy;
-        const dist = Math.min(Math.sqrt(dx*dx + dy*dy), 36);
-        const a = Math.atan2(dy, dx);
-        pupil.setAttribute('cx', eye.cx + Math.cos(a) * (dist/36 * 2.6));
-        pupil.setAttribute('cy', eye.cy + Math.sin(a) * (dist/36 * 2.6));
+      const scaleX = 160/rect.width, scaleY = 230/rect.height;
+      const mx = (e.clientX-rect.left)*scaleX, my = (e.clientY-rect.top)*scaleY;
+      [[pL,eyeL],[pR,eyeR]].forEach(([p,eye])=>{
+        const dx=mx-eye.cx, dy=my-eye.cy;
+        const d=Math.min(Math.sqrt(dx*dx+dy*dy),32);
+        const a=Math.atan2(dy,dx);
+        p.setAttribute('cx', eye.cx+Math.cos(a)*(d/32*2.4));
+        p.setAttribute('cy', eye.cy+Math.sin(a)*(d/32*2.4));
       });
-
       if (!reduced) {
-        const dx = mx - 90, dy = my - 110;
-        targetAngle = Math.atan2(dx, -dy) * 8;
+        const dx = mx-80, dy = my-115;
+        targetAngle = Math.atan2(dx,-dy) * 8;
       }
     });
 
-    function loop() {
-      angle += (targetAngle - angle) * 0.04;
-      needle.setAttribute('transform', `rotate(${angle} 90 110)`);
+    function loop(){
+      angle += (targetAngle-angle)*0.04;
+      needle.setAttribute('transform', `rotate(${angle} 80 115)`);
       requestAnimationFrame(loop);
     }
     if (!reduced) loop();
 
     zone.addEventListener('click', () => {
-      // Placeholder: wire this to open the chat/FAQ panel once that's built.
       console.log('mascot clicked — open chat panel here');
     });
   })();
