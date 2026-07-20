@@ -97,6 +97,33 @@ h1, h2, h3, h4 {
   transition: width 300ms var(--ease-quiet), height 300ms var(--ease-quiet), background 300ms var(--ease-quiet), border 300ms var(--ease-quiet);
 }
 
+/* ====== FOCUS-FRAME CURSOR ====== */
+#cursor-frame {
+  position: fixed; top: 0; left: 0; width: 0; height: 0; pointer-events: none; z-index: 9999;
+  opacity: 0; transition: all 260ms cubic-bezier(.22,1,.36,1);
+}
+#cursor-frame.show { opacity: 1; }
+.cf-corner { position: absolute; width: 16px; height: 16px; }
+.cf-tl { top: -6px; left: -6px; border-top: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+.cf-tr { top: -6px; right: -6px; border-top: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+.cf-bl { bottom: -6px; left: -6px; border-bottom: 2px solid var(--accent); border-left: 2px solid var(--accent); }
+.cf-br { bottom: -6px; right: -6px; border-bottom: 2px solid var(--accent); border-right: 2px solid var(--accent); }
+
+[data-cursor-frame] { transition: box-shadow 260ms ease; }
+[data-cursor-frame].cf-glow {
+  box-shadow: 0 0 24px rgba(182,188,198,0.35), 0 0 48px rgba(99,102,241,0.18);
+}
+
+@keyframes cf-shake {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-3px); }
+  40% { transform: translateX(3px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+[data-cursor-frame].cf-shaking { animation: cf-shake 320ms ease; }
+
 /* ====== NAV ====== */
 .nav {
   position: fixed;
@@ -1621,9 +1648,8 @@ h1, h2, h3, h4 {
     <button class="nav-link" data-page="services">Services</button>
     <button class="nav-link" data-page="studio">Studio</button>
     <button class="nav-link" data-page="contact">Contact</button>
-    <a href="#" class="nav-cta mobile-show" data-page="contact">Start a project →</a>
   </div>
-  <a href="#" class="nav-cta" data-page="contact">Start a project →</a>
+  <a href="#" class="nav-cta" data-page="contact" data-cursor-frame>Start a project →</a>
   <button class="nav-mobile-toggle" id="nav-toggle">MENU</button>
 </nav>
 
@@ -1639,13 +1665,12 @@ h1, h2, h3, h4 {
       <h1><span id="type-host"></span><span class="hero-caret" id="type-caret"></span></h1>
       <p class="hero-subtitle" id="hero-subtitle">northninth is a small studio building marketing websites, internal tools, and AI automation systems for service businesses, agencies, and operators who'd rather not hire a fifth junior.</p>
       <div class="hero-cta-row" id="hero-cta-row">
-        <button class="btn-primary" data-page="work">See selected work <span>→</span></button>
-        <button class="btn-ghost" data-page="contact">Start a project</button>
+        <button class="btn-ghost" data-page="contact" data-cursor-frame>Start a project</button>
       </div>
     </div>
     <div class="scroll-indicator" id="scroll-indicator">Scroll<span></span></div>
     <div id="stack" style="position:absolute; right:9vw; bottom:8vh; display:flex; flex-direction:column; align-items:center; gap:34px; z-index:5;">
-      <div id="mascot-zone" style="width:150px; height:230px; cursor:pointer;">
+      <div id="mascot-zone" style="width:150px; height:230px; cursor:pointer;" data-cursor-frame>
         <svg viewBox="0 0 160 230" style="width:100%; height:100%; overflow:visible;">
           <g id="needle">
             <polygon points="80,10 108,115 80,115 52,115" fill="#eef0f4"/>
@@ -1830,7 +1855,7 @@ h1, h2, h3, h4 {
     <div class="divider-num">05 / Next</div>
     <h2>Got something<br>that should <span class="accent">run itself?</span></h2>
     <p class="lede">We respond to every inquiry within 72 hours. Worst case, you get a free 30-minute call and a honest read on whether we're the right fit.</p>
-    <button class="btn-primary" data-page="contact">Start a project <span>→</span></button>
+    <button class="btn-primary" data-page="contact" data-cursor-frame>Start a project <span>→</span></button>
   </section>
 
 </section>
@@ -1992,7 +2017,7 @@ h1, h2, h3, h4 {
     <div class="divider-num">Next</div>
     <h2>Want the longer<br>version of <span class="accent">any of these?</span></h2>
     <p class="lede">We're happy to walk you through any project in detail — including the parts that didn't work, what we'd do differently, and how the engagement is going now.</p>
-    <button class="btn-primary" data-page="contact">Ask about a case study <span>→</span></button>
+    <button class="btn-primary" data-page="contact" data-cursor-frame>Ask about a case study <span>→</span></button>
   </section>
 
 </section>
@@ -2160,7 +2185,7 @@ h1, h2, h3, h4 {
     <div class="divider-num">06 / Next</div>
     <h2>Have a workflow<br>that should <span class="accent">run itself?</span></h2>
     <p class="lede">Tell us what's broken, what's slow, or what's keeping you from scaling. We'll be honest about whether software is the right answer.</p>
-    <button class="btn-primary" data-page="contact">Start a project <span>→</span></button>
+    <button class="btn-primary" data-page="contact" data-cursor-frame>Start a project <span>→</span></button>
   </section>
 
 </section>
@@ -2297,7 +2322,7 @@ h1, h2, h3, h4 {
     <div class="divider-num">06 / Next</div>
     <h2>Want to talk<br>about <span class="accent">your project?</span></h2>
     <p class="lede">We respond to every inquiry within 72 hours. No funnels, no qualifying calls, no salespeople — just a real conversation with someone who'd be on the work.</p>
-    <button class="btn-primary" data-page="contact">Start a project <span>→</span></button>
+    <button class="btn-primary" data-page="contact" data-cursor-frame>Start a project <span>→</span></button>
   </section>
 
 </section>
@@ -2365,7 +2390,7 @@ h1, h2, h3, h4 {
         <textarea id="message" name="message" rows="5" placeholder="What are you trying to ship? What's broken, what's slow, what's keeping you up at night? The more specific, the better." required></textarea>
       </div>
 
-      <button type="submit" class="btn-primary form-submit">Send inquiry <span>→</span></button>
+      <button type="submit" class="btn-primary form-submit" data-cursor-frame>Send inquiry <span>→</span></button>
       <div class="form-status" id="form-status">Inquiry sent — we'll respond within 72 hours.</div>
     </form>
 
@@ -2548,6 +2573,35 @@ h1, h2, h3, h4 {
       }
     })();
   }
+
+  // ====== FOCUS-FRAME CURSOR ======
+  (function initCursorFrame() {
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const frame = document.getElementById('cursor-frame');
+    if (!frame) return;
+    const targets = document.querySelectorAll('[data-cursor-frame]');
+
+    targets.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        const r = el.getBoundingClientRect();
+        frame.style.left = r.left + 'px';
+        frame.style.top = r.top + 'px';
+        frame.style.width = r.width + 'px';
+        frame.style.height = r.height + 'px';
+        frame.classList.add('show');
+
+        el.classList.add('cf-glow');
+        el.classList.remove('cf-shaking');
+        void el.offsetWidth;
+        el.classList.add('cf-shaking');
+      });
+      el.addEventListener('mouseleave', () => {
+        frame.classList.remove('show');
+        el.classList.remove('cf-glow');
+      });
+      el.addEventListener('animationend', () => el.classList.remove('cf-shaking'));
+    });
+  })();
 
   // ====== DOT GRID CANVAS ======
   const cvs = document.getElementById('glyph-rain');
@@ -2927,6 +2981,13 @@ h1, h2, h3, h4 {
   controls.enableZoom = false;
   controls.enablePan = false;
 </script>
+
+<div id="cursor-frame">
+  <div class="cf-corner cf-tl"></div>
+  <div class="cf-corner cf-tr"></div>
+  <div class="cf-corner cf-bl"></div>
+  <div class="cf-corner cf-br"></div>
+</div>
 
 </body>
 </html>
