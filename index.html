@@ -45,13 +45,12 @@ body {
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
-  cursor: none;
+  cursor: auto;
   -webkit-font-smoothing: antialiased;
 }
 
 @media (pointer: coarse) {
   body { cursor: auto; }
-  #cursor-dot { display: none !important; }
 }
 
 ::selection { background: var(--accent); color: var(--bg); }
@@ -82,19 +81,6 @@ h1, h2, h3, h4 {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
-}
-
-/* ====== CURSOR ====== */
-#cursor-dot {
-  position: fixed;
-  top: 0; left: 0;
-  width: 6px; height: 6px;
-  background: #fff;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  transition: width 300ms var(--ease-quiet), height 300ms var(--ease-quiet), background 300ms var(--ease-quiet), border 300ms var(--ease-quiet);
 }
 
 /* ====== FOCUS-FRAME CURSOR ====== */
@@ -149,7 +135,6 @@ h1, h2, h3, h4 {
   display: flex;
   align-items: center;
   gap: 0;
-  cursor: none;
   background: none;
   border: none;
 }
@@ -173,7 +158,6 @@ h1, h2, h3, h4 {
   text-decoration: none;
   background: none;
   border: none;
-  cursor: none;
   padding: 4px 0;
   transition: color 400ms var(--ease-quiet);
   position: relative;
@@ -202,7 +186,6 @@ h1, h2, h3, h4 {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   background: none;
-  cursor: none;
   transition: all 400ms var(--ease-quiet);
   text-decoration: none;
   display: inline-flex;
@@ -223,7 +206,6 @@ h1, h2, h3, h4 {
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   letter-spacing: 0.1em;
-  cursor: none;
   padding: 8px;
 }
 
@@ -367,7 +349,6 @@ h1, h2, h3, h4 {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   border: none;
-  cursor: none;
   transition: all 400ms var(--ease-quiet);
   text-decoration: none;
   display: inline-flex;
@@ -390,7 +371,6 @@ h1, h2, h3, h4 {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   border: 1px solid var(--line);
-  cursor: none;
   transition: all 400ms var(--ease-quiet);
   text-decoration: none;
   display: inline-flex;
@@ -543,7 +523,6 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
   color: var(--accent);
   text-decoration: none;
-  cursor: none;
   padding: 16px 0;
   border-bottom: 1px solid var(--accent-soft);
   transition: border-color 400ms var(--ease-quiet);
@@ -709,24 +688,6 @@ h1, h2, h3, h4 {
   .tools-grid > [data-reveal] { transition-delay: 0ms; }
 }
 
-/* Cursor ring label */
-#cursor-dot .cursor-label {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 8px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: #fff;
-  opacity: 0;
-  transition: opacity 200ms;
-}
-
-#cursor-dot.is-labeled .cursor-label { opacity: 1; }
-
 /* ====== MEDIA DIRECTIONAL CLIP ====== */
 .media {
   overflow: hidden;
@@ -782,7 +743,6 @@ h1, h2, h3, h4 {
 .work-card {
   text-decoration: none;
   color: inherit;
-  cursor: none;
   display: flex;
   flex-direction: column;
 }
@@ -881,7 +841,6 @@ h1, h2, h3, h4 {
   padding: 8px 14px;
   background: none;
   border: 1px solid transparent;
-  cursor: none;
   transition: all 400ms var(--ease-quiet);
 }
 
@@ -1226,7 +1185,6 @@ h1, h2, h3, h4 {
   font-size: 18px;
   padding: 12px 0;
   outline: none;
-  cursor: none;
   transition: border-color 400ms var(--ease-quiet);
   font-weight: 500;
   -webkit-appearance: none;
@@ -1312,7 +1270,6 @@ h1, h2, h3, h4 {
   text-decoration: none;
   border-bottom: 1px solid var(--line);
   transition: border-color 400ms var(--ease-quiet);
-  cursor: none;
 }
 
 .sidebar-block .value a:hover {
@@ -1347,7 +1304,6 @@ h1, h2, h3, h4 {
   justify-content: space-between;
   align-items: center;
   padding: 28px 0;
-  cursor: none;
   background: none;
   border: none;
   width: 100%;
@@ -1482,7 +1438,6 @@ h1, h2, h3, h4 {
   text-decoration: none;
   font-size: 14px;
   transition: color 400ms var(--ease-quiet);
-  cursor: none;
   background: none;
   border: none;
   font-family: inherit;
@@ -1603,7 +1558,6 @@ h1, h2, h3, h4 {
   text-transform: uppercase;
   color: var(--accent);
   text-decoration: none;
-  cursor: none;
   padding: 16px 0;
   margin-top: 24px;
   border-bottom: 1px solid var(--accent-soft);
@@ -1635,9 +1589,6 @@ h1, h2, h3, h4 {
 </style>
 </head>
 <body>
-
-<!-- Custom cursor -->
-<div id="cursor-dot"></div>
 
 <!-- ====== NAV ====== -->
 <nav class="nav">
@@ -2521,58 +2472,6 @@ h1, h2, h3, h4 {
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const touch = matchMedia('(pointer: coarse)').matches;
-
-  // ====== CUSTOM CURSOR ======
-  const cursor = document.getElementById('cursor-dot');
-  if (cursor && !touch) {
-    const pos = { x: -100, y: -100 };
-    const target = { x: -100, y: -100 };
-    let hover = false;
-    let cursorLabel = '';
-    
-    // Create label element inside cursor
-    const labelEl = document.createElement('span');
-    labelEl.className = 'cursor-label';
-    cursor.appendChild(labelEl);
-    
-    addEventListener('mousemove', e => {
-      target.x = e.clientX;
-      target.y = e.clientY;
-    });
-    
-    document.addEventListener('mouseover', e => {
-      const el = e.target.closest('a, button, input, select, textarea, [data-cursor-hover]');
-      if (el) {
-        hover = true;
-        cursorLabel = el.dataset.cursorLabel || '';
-      }
-    });
-    document.addEventListener('mouseout', e => {
-      if (e.target.closest('a, button, input, select, textarea, [data-cursor-hover]')) {
-        hover = false;
-        cursorLabel = '';
-      }
-    });
-    
-    (function loop() {
-      requestAnimationFrame(loop);
-      pos.x += (target.x - pos.x) * 0.15;
-      pos.y += (target.y - pos.y) * 0.15;
-      const s = hover ? 40 : 6;
-      cursor.style.transform = `translate(${pos.x - s/2}px, ${pos.y - s/2}px)`;
-      cursor.style.width = s + 'px';
-      cursor.style.height = s + 'px';
-      cursor.style.background = hover ? 'transparent' : '#fff';
-      cursor.style.border = hover ? '1.5px solid rgba(255,255,255,0.6)' : '0 solid transparent';
-      cursor.style.mixBlendMode = hover ? 'normal' : 'difference';
-      if (cursorLabel && hover) {
-        labelEl.textContent = cursorLabel;
-        cursor.classList.add('is-labeled');
-      } else {
-        cursor.classList.remove('is-labeled');
-      }
-    })();
-  }
 
   // ====== FOCUS-FRAME CURSOR ======
   (function initCursorFrame() {
