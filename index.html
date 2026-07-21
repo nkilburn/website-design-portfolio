@@ -167,15 +167,6 @@ h1, h2, h3, h4 {
 
 .nav-link.active { color: var(--text); }
 
-.nav-link.active::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0;
-  bottom: -4px;
-  height: 1px;
-  background: var(--accent);
-}
-
 .nav-cta {
   padding: 10px 18px;
   border: 1px solid var(--accent);
@@ -196,6 +187,10 @@ h1, h2, h3, h4 {
 .nav-cta:hover {
   background: var(--accent);
   color: var(--bg);
+}
+
+.nav-cta.mobile-show {
+  display: none;
 }
 
 .nav-mobile-toggle {
@@ -285,12 +280,12 @@ h1, h2, h3, h4 {
 }
 
 .hero h1 {
-  font-size: clamp(44px, 7.2vw, 116px);
+  font-size: clamp(44px, 6.8vw, 104px);
   font-weight: 900;
   line-height: 0.98;
   letter-spacing: -0.04em;
   margin-bottom: 48px;
-  max-width: 1200px;
+  max-width: 1360px;
   white-space: pre-line;
   min-height: 3em;
 }
@@ -313,7 +308,7 @@ h1, h2, h3, h4 {
 .hero-subtitle {
   font-size: clamp(16px, 1.3vw, 19px);
   color: var(--text-soft);
-  max-width: 560px;
+  max-width: 780px;
   margin-bottom: 48px;
   line-height: 1.55;
   opacity: 0;
@@ -1597,12 +1592,13 @@ h1, h2, h3, h4 {
   <button class="nav-logo" data-page="home"><span class="wm-north">north</span><span class="wm-ninth">ninth</span></button>
   <div class="nav-links" id="nav-links">
     <button class="nav-link active" data-page="home">Home</button>
-    <button class="nav-link" data-page="work">Work</button>
+    <button class="nav-link" data-page="studio">About Us</button>
     <button class="nav-link" data-page="services">Services</button>
-    <button class="nav-link" data-page="studio">Studio</button>
-    <button class="nav-link" data-page="contact">Contact</button>
+    <button class="nav-link" data-page="work">Projects</button>
+    <button class="nav-link" data-page="services">Automation</button>
+    <a href="#" class="nav-cta mobile-show" data-page="contact">Start a project</a>
   </div>
-  <a href="#" class="nav-cta" data-page="contact" data-cursor-frame>Start a project →</a>
+  <a href="#" class="nav-cta" data-page="contact" data-cursor-frame>Start a project</a>
   <button class="nav-mobile-toggle" id="nav-toggle">MENU</button>
 </nav>
 
@@ -1616,9 +1612,9 @@ h1, h2, h3, h4 {
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1><span id="type-host"></span><span class="hero-caret" id="type-caret"></span></h1>
-      <p class="hero-subtitle" id="hero-subtitle">northninth is a small studio building marketing websites, internal tools, and AI automation systems for service businesses, agencies, and operators who'd rather not hire a fifth junior.</p>
+      <p class="hero-subtitle" id="hero-subtitle">northninth builds websites designed to bring in more customers, and sets up AI automation that saves on labor costs, handles the busywork, and frees you up to focus on what you actually do best: running your business. Think of it as staff that never clocks out, working around the clock so your business keeps moving even when you're not.</p>
       <div class="hero-cta-row" id="hero-cta-row">
-        <button class="btn-ghost" data-page="contact" data-cursor-frame>Start a project</button>
+        <button class="btn-ghost" data-page="contact" data-cursor-frame>Let's connect</button>
       </div>
     </div>
     <div class="scroll-indicator" id="scroll-indicator">Scroll<span></span></div>
@@ -2593,7 +2589,7 @@ h1, h2, h3, h4 {
   });
 
   // ====== TYPEWRITER ======
-  const TYPE_TEXT = "We design interfaces\nand automate the\nwork behind them.";
+  const TYPE_TEXT = "Your business, open 24/7.\nEven off the clock.";
   let typeTimer = null;
 
   function runTypewriter() {
@@ -2853,16 +2849,18 @@ h1, h2, h3, h4 {
 <script type="module">
   import Globe from 'globe.gl';
   import * as topojson from 'topojson-client';
-  import { MeshLambertMaterial, DoubleSide } from 'three';
+  import { MeshBasicMaterial, DoubleSide } from 'three';
 
-  const globeColor = '#E5E7EB';
+  const globeColor = '#999ED5'; // slate (--accent) blended ~35% toward indigo (#6366F1)
   const container = document.getElementById('globeViz');
   if (!container) throw new Error('globeViz container not found');
 
   const globe = new Globe(container)
     .backgroundColor('rgba(0,0,0,0)')
     .showGlobe(false)
-    .showAtmosphere(false);
+    .showAtmosphere(true)
+    .atmosphereColor('#6366F1')
+    .atmosphereAltitude(0.15);
 
   fetch('https://cdn.jsdelivr.net/npm/world-atlas/land-110m.json')
     .then(res => res.json())
@@ -2871,7 +2869,7 @@ h1, h2, h3, h4 {
       globe
         .polygonsData(features)
         .polygonCapMaterial(
-          new MeshLambertMaterial({
+          new MeshBasicMaterial({
             color: globeColor,
             side: DoubleSide,
           })
