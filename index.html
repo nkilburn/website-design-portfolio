@@ -245,6 +245,8 @@ h1, h2, h3, h4 {
 }
 
 /* ====== MASCOT ====== */
+#coord-text { transition: opacity 300ms ease; }
+#hint-text { opacity: 0; transition: opacity 300ms ease; }
 #stack.hovering #coord-text { opacity: 0; }
 #stack.hovering #hint-text { opacity: 1; }
 
@@ -1636,7 +1638,7 @@ h1, h2, h3, h4 {
       </div>
       <div id="coord-stack" style="position:relative; width:220px; height:16px;">
         <span id="coord-text" style="position:absolute; left:0; right:0; text-align:center; color:#5f6570; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.1em;">40.5001&deg; N / 74.4257&deg; W</span>
-        <span id="hint-text" style="position:absolute; left:0; right:0; text-align:center; color:#B6BCC6; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; opacity:0; transition:opacity 300ms ease;">click to ask</span>
+        <span id="hint-text" style="position:absolute; left:0; right:0; text-align:center; color:#B6BCC6; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.15em; text-transform:uppercase; transition:opacity 300ms ease;">click to ask</span>
       </div>
     </div>
   </section>
@@ -2474,7 +2476,7 @@ h1, h2, h3, h4 {
   const touch = matchMedia('(pointer: coarse)').matches;
 
   // ====== FOCUS-FRAME CURSOR ======
-  (function initCursorFrame() {
+  function initCursorFrame() {
     if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
     const frame = document.getElementById('cursor-frame');
     if (!frame) return;
@@ -2500,7 +2502,8 @@ h1, h2, h3, h4 {
       });
       el.addEventListener('animationend', () => el.classList.remove('cf-shaking'));
     });
-  })();
+  }
+  document.addEventListener('DOMContentLoaded', initCursorFrame);
 
   // ====== DOT GRID CANVAS ======
   const cvs = document.getElementById('glyph-rain');
@@ -2801,12 +2804,13 @@ h1, h2, h3, h4 {
   });
 
   // ====== COMPASS MASCOT ======
-  (function initMascot() {
+  function initMascot() {
     const pL = document.getElementById('pL'), pR = document.getElementById('pR');
     const eyeL = {cx:71,cy:113}, eyeR = {cx:89,cy:113};
     const needle = document.getElementById('needle');
     const zone = document.getElementById('mascot-zone');
     const stack = document.getElementById('stack');
+    if (!zone || !stack || !needle || !pL || !pR) return;
     let angle = 0, targetAngle = 0;
 
     zone.addEventListener('mouseenter', () => stack.classList.add('hovering'));
@@ -2840,7 +2844,8 @@ h1, h2, h3, h4 {
     zone.addEventListener('click', () => {
       console.log('mascot clicked — open chat panel here');
     });
-  })();
+  }
+  document.addEventListener('DOMContentLoaded', initMascot);
 
 })();
 </script>
